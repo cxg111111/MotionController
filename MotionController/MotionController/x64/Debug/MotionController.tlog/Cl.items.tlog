@@ -1,0 +1,12 @@
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\Controler.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\Controler.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\Controlled_Device.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\Controlled_Device.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\CSVWriter.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\CSVWriter.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\fault_handler.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\fault_handler.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\FourthOrderTrajectoryPlanning.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\FourthOrderTrajectoryPlanning.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\LowPassFilter.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\LowPassFilter.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\main.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\main.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\Notch_TF.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\Notch_TF.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\PIDController.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\PIDController.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\Safety_Faults.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\Safety_Faults.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\Socket.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\Socket.obj
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\ThreadControl.c;C:\Users\Lenovo\Desktop\MotionController\MotionController\x64\Debug\ThreadControl.obj

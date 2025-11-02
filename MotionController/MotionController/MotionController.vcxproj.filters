@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\inc">
+      <UniqueIdentifier>{a615bae6-7766-4429-b6a4-9bc7761c8317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\src">
+      <UniqueIdentifier>{ed368d8b-db33-4545-a55c-c3bfed3a70df}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\Controler.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Controlled_Device.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\CSVWriter.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\fault_handler.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\LowPassFilter.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Notch_TF.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\PIDController.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Safety_Faults.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Socket.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ThreadControl.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\FourthOrderTrajectoryPlanning.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Controler.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Controlled_Device.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSVWriter.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fault_handler.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LowPassFilter.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Notch_TF.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PIDController.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Safety_Faults.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Socket.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ThreadControl.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FourthOrderTrajectoryPlanning.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

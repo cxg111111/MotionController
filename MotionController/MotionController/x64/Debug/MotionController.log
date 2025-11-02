@@ -1,0 +1,22 @@
+﻿  CSVWriter.c
+C:\Users\Lenovo\Desktop\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/CSVWriter.c”)
+  
+  Safety_Faults.c
+C:\Users\Lenovo\Desktop\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/Safety_Faults.c”)
+  
+  ThreadControl.c
+C:\Users\Lenovo\Desktop\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/ThreadControl.c”)
+  
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\ThreadControl.c(55,5): warning C4013: “SetCSVFile”未定义；假设外部返回 int
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\ThreadControl.c(203,5): warning C4013: “WriteCSVDataToBuffer”未定义；假设外部返回 int
+  main.c
+C:\Users\Lenovo\Desktop\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.c”)
+  
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\main.c(20,5): warning C4013: “InitCSVBuffer”未定义；假设外部返回 int
+C:\Users\Lenovo\Desktop\MotionController\MotionController\src\main.c(117,5): warning C4013: “CleanupCSVBuffer”未定义；假设外部返回 int
+  正在生成代码...
+  MotionController.vcxproj -> C:\Users\Lenovo\Desktop\MotionController\x64\Debug\MotionController.exe
