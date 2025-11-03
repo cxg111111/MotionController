@@ -1,24 +1,24 @@
 #ifndef PIDCONTROLLER_H
 #define PIDCONTROLLER_H
 
-// PID¿ØÖÆÆ÷½á¹¹Ìå;
+// PIDæ§åˆ¶å™¨ç»“æ„ä½“;
 typedef struct {
-    // PIDÔöÒæ²ÎÊı
-    double kp;  // ±ÈÀıÔöÒæ
-    double ki;  // »ı·ÖÔöÒæ
-    double kd;  // Î¢·ÖÔöÒæ
-    double sample_time;  // ²ÉÑùÊ±¼ä
+    // PIDå¢ç›Šå‚æ•°
+    double kp;  // æ¯”ä¾‹å¢ç›Š
+    double ki;  // ç§¯åˆ†å¢ç›Š
+    double kd;  // å¾®åˆ†å¢ç›Š
+    double sample_time;  // é‡‡æ ·æ—¶é—´
     
-    // »ı·Ö²¿·ÖÀúÊ·Öµ
+    // ç§¯åˆ†éƒ¨åˆ†å†å²å€¼
     double dFiInPrev[2];
     double dFiOutPrev[2];
     
-    // Î¢·Ö²¿·ÖÀúÊ·Öµ
+    // å¾®åˆ†éƒ¨åˆ†å†å²å€¼
     double dFdInPrev[2];
     double dFdOutPrev[2];
 } PIDController;
 
-// º¯ÊıÉùÃ÷
+// å‡½æ•°å£°æ˜
 void PIDControllerInit(PIDController* pid, double kp, double ki, double kd, double sample_time);
 double PIDControllerUpdate(PIDController* pid, double error);
 void PIDControllerReset(PIDController* pid);

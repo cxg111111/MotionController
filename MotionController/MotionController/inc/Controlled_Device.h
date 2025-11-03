@@ -3,17 +3,17 @@
 
 #include <stdint.h>
 
-// 刚体传递函数结构体
+// 鍒氫綋浼犻�掑嚱鏁扮粨鏋勪綋
 typedef struct {
     double in_prev[2];   // u[k-1], u[k-2]
     double out_prev[2];  // y[k-1], y[k-2]
     double a0, a1, a2;
     double b0, b1, b2;
-    double mass;         // 质量参数
-    double Ts;           // 采样时间
+    double mass;         // 璐ㄩ噺鍙傛暟
+    double Ts;           // 閲囨牱鏃堕棿
 } RigidBodyTF;
 
-// 函数声明
+// 鍑芥暟澹版槑
 void RigidBodyTFInit(RigidBodyTF* tf, double mass, double dt);
 double RigidBodyTFUpdate(RigidBodyTF* tf, double force);
 

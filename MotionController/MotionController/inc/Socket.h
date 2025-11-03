@@ -2,7 +2,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-// Ìõ¼ş°üº¬WinsockÍ·ÎÄ¼ş
+// æ¡ä»¶åŒ…å«Winsockå¤´æ–‡ä»¶
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
@@ -10,22 +10,22 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 
-// Ìí¼ÓÖ¸ÁîÖ´ĞĞ×´Ì¬Ã¶¾Ù
+// æ·»åŠ æŒ‡ä»¤æ‰§è¡ŒçŠ¶æ€æšä¸¾
 typedef enum {
-    CMD_STATUS_PENDING = 0,     // µÈ´ıÖ´ĞĞ
-    CMD_STATUS_EXECUTING = 1,   // ÕıÔÚÖ´ĞĞ
-    CMD_STATUS_COMPLETED = 2,   // Ö´ĞĞÍê³É
-    CMD_STATUS_ERROR = 3        // Ö´ĞĞ³ö´í
+    CMD_STATUS_PENDING = 0,     // ç­‰å¾…æ‰§è¡Œ
+    CMD_STATUS_EXECUTING = 1,   // æ­£åœ¨æ‰§è¡Œ
+    CMD_STATUS_COMPLETED = 2,   // æ‰§è¡Œå®Œæˆ
+    CMD_STATUS_ERROR = 3        // æ‰§è¡Œå‡ºé”™
 } CommandStatus;
 
-// Ìí¼ÓÖ¸Áî·´À¡½á¹¹Ìå
+// æ·»åŠ æŒ‡ä»¤åé¦ˆç»“æ„ä½“
 typedef struct {
-    int iCMD;                   // Ö¸ÁîID
-    int axis;                   // ÖáID
-    int sequenceNumber;         // Ö¸ÁîĞòÁĞºÅ
-    CommandStatus status;       // Ö¸Áî×´Ì¬
-    int errorCode;              // ´íÎó´úÂë
-    char message[128];          // ·´À¡ÏûÏ¢
+    int iCMD;                   // æŒ‡ä»¤ID
+    int axis;                   // è½´ID
+    int sequenceNumber;         // æŒ‡ä»¤åºåˆ—å·
+    CommandStatus status;       // æŒ‡ä»¤çŠ¶æ€
+    int errorCode;              // é”™è¯¯ä»£ç 
+    char message[128];          // åé¦ˆæ¶ˆæ¯
 } CommandFeedback;
 
 struct RxData
@@ -36,14 +36,14 @@ struct RxData
     double dParamData[5];
 };
 
-// È«¾Ö±äÁ¿ÉùÃ÷
+// å…¨å±€å˜é‡å£°æ˜
 extern struct RxData g_rxData;
 extern int g_bDataReceived;
 
-// Ìí¼Ó·¢ËÍ·´À¡º¯ÊıÉùÃ÷
+// æ·»åŠ å‘é€åé¦ˆå‡½æ•°å£°æ˜
 int SendCommandFeedback(SOCKET clientSocket, CommandFeedback* feedback);
 
-// º¯ÊıÉùÃ÷
+// å‡½æ•°å£°æ˜
 int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* pData));
 
 

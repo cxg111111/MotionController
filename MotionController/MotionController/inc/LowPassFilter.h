@@ -1,20 +1,20 @@
 #ifndef LOWPASSFILTER_H
 #define LOWPASSFILTER_H
 
-// ¶ş½×µÍÍ¨ÂË²¨Æ÷½á¹¹Ìå
+// äºŒé˜¶ä½é€šæ»¤æ³¢å™¨ç»“æ„ä½“
 typedef struct {
-    // ÂË²¨Æ÷ÏµÊı
-    double b0, b1, b2;  // ·Ö×ÓÏµÊı
-    double a0, a1, a2;  // ·ÖÄ¸ÏµÊı
+    // æ»¤æ³¢å™¨ç³»æ•°
+    double b0, b1, b2;  // åˆ†å­ç³»æ•°
+    double a0, a1, a2;  // åˆ†æ¯ç³»æ•°
     
-    double sample_time;  // ²ÉÑùÊ±¼ä
+    double sample_time;  // é‡‡æ ·æ—¶é—´
     
-    // ÀúÊ·Öµ
-    double dInPrev[2];   // ÊäÈëÀúÊ·Öµ
-    double dOutPrev[2];  // Êä³öÀúÊ·Öµ
+    // å†å²å€¼
+    double dInPrev[2];   // è¾“å…¥å†å²å€¼
+    double dOutPrev[2];  // è¾“å‡ºå†å²å€¼
 } LowPassFilter;
 
-// º¯ÊıÉùÃ÷
+// å‡½æ•°å£°æ˜
 void LowPassFilterInit(LowPassFilter* lpf, double cutoff_freq, double damping, double sample_time);
 double LowPassFilterUpdate(LowPassFilter* lpf, double input);
 void LowPassFilterReset(LowPassFilter* lpf);

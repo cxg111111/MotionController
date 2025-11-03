@@ -3,23 +3,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ws2tcpip.h>  // Ìí¼ÓÕâ¸öÍ·ÎÄ¼şÒÔÊ¹ÓÃINET_ADDRSTRLEN
+#include <ws2tcpip.h>  // æ·»åŠ è¿™ä¸ªå¤´æ–‡ä»¶ä»¥ä½¿ç”¨INET_ADDRSTRLEN
 
 #pragma comment(lib, "ws2_32.lib")
 
 #define RXDATA_SIZE sizeof(struct RxData)
 #define FEEDBACK_SIZE sizeof(CommandFeedback)
 
-// È«¾Ö±äÁ¿ÉùÃ÷
+// å…¨å±€å˜é‡å£°æ˜
 struct RxData g_rxData = {0};
 int g_bDataReceived = 0;
-static int g_sequenceNumber = 0;  // Ö¸ÁîĞòÁĞºÅ
+static int g_sequenceNumber = 0;  // æŒ‡ä»¤åºåˆ—å·
 
-// Ìí¼Ó±£´æÉÏÒ»´ÎÃüÁîĞÅÏ¢µÄ±äÁ¿
+// æ·»åŠ ä¿å­˜ä¸Šä¸€æ¬¡å‘½ä»¤ä¿¡æ¯çš„å˜é‡
 static struct RxData g_lastRxData = {0};
 static int g_lastSequenceNumber = 0;
 
-// ·¢ËÍÖ¸Áî·´À¡º¯ÊıÊµÏÖ
+// å‘é€æŒ‡ä»¤åé¦ˆå‡½æ•°å®ç°
 int SendCommandFeedback(SOCKET clientSocket, CommandFeedback* feedback) {
     int sendLen = send(clientSocket, (char*)feedback, FEEDBACK_SIZE, 0);
     if(sendLen == SOCKET_ERROR) {
@@ -37,17 +37,17 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
     int clientAddrSize;
     struct RxData rxData;
     int recvLen, sendLen;
-    char clientIP[INET_ADDRSTRLEN];  // ÏÖÔÚINET_ADDRSTRLEN¿ÉÒÔÕı³£Ê¹ÓÃÁË
+    char clientIP[INET_ADDRSTRLEN];  // ç°åœ¨INET_ADDRSTRLENå¯ä»¥æ­£å¸¸ä½¿ç”¨äº†
     char response[] = "Server received structure data";
     
-    // ³õÊ¼»¯Winsock
+    // åˆå§‹åŒ–Winsock
     if(WSAStartup(MAKEWORD(2,2), &wsaData) != 0)
     {
         fprintf(stderr, "WSAStartup failed, error code: %zd\n", (size_t)WSAGetLastError());
         return 1;
     }
 
-    // ´´½¨Ì×½Ó×Ö
+    // åˆ›å»ºå¥—æ¥å­—
     serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if(serverSocket == INVALID_SOCKET)
     {
@@ -56,13 +56,13 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
         return 1;
     }
 
-    // ÉèÖÃ·şÎñÆ÷µØÖ·
+    // è®¾ç½®æœåŠ¡å™¨åœ°å€
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(usPort);
 
-    // °ó¶¨Ì×½Ó×Ö
+    // ç»‘å®šå¥—æ¥å­—
     if(bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
     {
         fprintf(stderr, "Bind failed, error code: %zd\n", (size_t)WSAGetLastError());
@@ -71,7 +71,7 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
         return 1;
     }
 
-    // ¿ªÊ¼¼àÌı
+    // å¼€å§‹ç›‘å¬
     if(listen(serverSocket, 5) == SOCKET_ERROR)
     {
         fprintf(stderr, "Listen failed, error code: %zd\n", (size_t)WSAGetLastError());
@@ -82,7 +82,7 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
 
     printf("Server started successfully, listening on port %d ...\n", usPort);
 
-    // ½ÓÊÜ¿Í»§¶ËÁ¬½Ó
+    // æ¥å—å®¢æˆ·ç«¯è¿æ¥
     clientAddrSize = sizeof(clientAddr);
     clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrSize);
     if(clientSocket == INVALID_SOCKET)
@@ -96,7 +96,7 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
     inet_ntop(AF_INET, &clientAddr.sin_addr, clientIP, sizeof(clientIP));
     printf("Client %s:%d connected\n", clientIP, ntohs(clientAddr.sin_port));
 
-    // Êı¾İ½ÓÊÕÑ­»·
+    // æ•°æ®æ¥æ”¶å¾ªç¯
     while(1)
     {
         recvLen = recv(clientSocket, (char*)&rxData, RXDATA_SIZE, 0);
@@ -119,20 +119,20 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
             continue;
         }
 
-        // ¸üĞÂÖ¸ÁîĞòÁĞºÅ
+        // æ›´æ–°æŒ‡ä»¤åºåˆ—å·
         g_sequenceNumber++;
 
-        // ·¢ËÍ½ÓÊÕÈ·ÈÏ·´À¡£¨·´À¡ÉÏÒ»´ÎµÄÃüÁî£©
+        // å‘é€æ¥æ”¶ç¡®è®¤åé¦ˆï¼ˆåé¦ˆä¸Šä¸€æ¬¡çš„å‘½ä»¤ï¼‰
         CommandFeedback feedback = {0};
         if (g_lastSequenceNumber > 0) {
-            // Èç¹ûÓĞÉÏÒ»´ÎµÄÃüÁî£¬Ôò·´À¡ÉÏÒ»´ÎµÄÃüÁîĞÅÏ¢
+            // å¦‚æœæœ‰ä¸Šä¸€æ¬¡çš„å‘½ä»¤ï¼Œåˆ™åé¦ˆä¸Šä¸€æ¬¡çš„å‘½ä»¤ä¿¡æ¯
             feedback.iCMD = g_lastRxData.iCMD;
             feedback.axis = g_lastRxData.axis;
             feedback.sequenceNumber = g_lastSequenceNumber;
             feedback.status = CMD_STATUS_COMPLETED;
             sprintf_s(feedback.message, sizeof(feedback.message), "Command %d completed successfully", g_lastRxData.iCMD);
         } else {
-            // Èç¹ûÃ»ÓĞÉÏÒ»´ÎµÄÃüÁî£¨µÚÒ»´Î£©£¬Ôò·´À¡µ±Ç°ÃüÁîµÄ½ÓÊÕÈ·ÈÏ
+            // å¦‚æœæ²¡æœ‰ä¸Šä¸€æ¬¡çš„å‘½ä»¤ï¼ˆç¬¬ä¸€æ¬¡ï¼‰ï¼Œåˆ™åé¦ˆå½“å‰å‘½ä»¤çš„æ¥æ”¶ç¡®è®¤
             feedback.iCMD = rxData.iCMD;
             feedback.axis = rxData.axis;
             feedback.sequenceNumber = g_sequenceNumber;
@@ -141,22 +141,22 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
         }
         SendCommandFeedback(clientSocket, &feedback);
 
-        // ±£´æµ±Ç°ÃüÁîÎªÏÂÒ»´ÎµÄ"ÉÏÒ»´ÎÃüÁî"
+        // ä¿å­˜å½“å‰å‘½ä»¤ä¸ºä¸‹ä¸€æ¬¡çš„"ä¸Šä¸€æ¬¡å‘½ä»¤"
         g_lastRxData = rxData;
         g_lastSequenceNumber = g_sequenceNumber;
 
-        // ½«½ÓÊÕµ½µÄÊı¾İ±£´æµ½È«¾Ö±äÁ¿
+        // å°†æ¥æ”¶åˆ°çš„æ•°æ®ä¿å­˜åˆ°å…¨å±€å˜é‡
         g_rxData = rxData;
         g_bDataReceived = 1;
 
-        // µ÷ÓÃ»Øµ÷º¯Êı´¦Àí½ÓÊÕµ½µÄÊı¾İ
+        // è°ƒç”¨å›è°ƒå‡½æ•°å¤„ç†æ¥æ”¶åˆ°çš„æ•°æ®
         if(pDataCallback != NULL)
         {
             pDataCallback(&rxData);
         }
         else
         {
-            // Ä¬ÈÏ´¦Àí·½Ê½£¬´òÓ¡½ÓÊÕµ½µÄÊı¾İ
+            // é»˜è®¤å¤„ç†æ–¹å¼ï¼Œæ‰“å°æ¥æ”¶åˆ°çš„æ•°æ®
             printf("\nReceived structure data:\n");
             printf("iCMD: %d\n", rxData.iCMD);
             printf("axis: %d\n", rxData.axis);
@@ -169,7 +169,7 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
             printf("dParamData[4]: %.5f\n", rxData.dParamData[4]);
         }
 
-        // ·¢ËÍÖ´ĞĞÍê³É·´À¡£¨·´À¡µ±Ç°ÃüÁî£©
+        // å‘é€æ‰§è¡Œå®Œæˆåé¦ˆï¼ˆåé¦ˆå½“å‰å‘½ä»¤ï¼‰
         feedback.iCMD = rxData.iCMD;
         feedback.axis = rxData.axis;
         feedback.sequenceNumber = g_sequenceNumber;
@@ -177,7 +177,7 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
         sprintf_s(feedback.message, sizeof(feedback.message), "Command %d executed successfully", rxData.iCMD);
         SendCommandFeedback(clientSocket, &feedback);
 
-        // ¼ì²éÊÇ·ñĞèÒª¶Ï¿ªÁ¬½Ó
+        // æ£€æŸ¥æ˜¯å¦éœ€è¦æ–­å¼€è¿æ¥
         if(rxData.iCMD == 999)
         {
             printf("Client requested disconnect\n");
@@ -185,7 +185,7 @@ int RunSocketServer(unsigned short usPort, void (*pDataCallback)(struct RxData* 
         }
     }
 
-    // ÇåÀí×ÊÔ´
+    // æ¸…ç†èµ„æº
     closesocket(clientSocket);
     closesocket(serverSocket);
     WSACleanup();

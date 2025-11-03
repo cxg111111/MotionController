@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-// PID¿ØÖÆÆ÷³õÊ¼»¯
+// PIDæŽ§åˆ¶å™¨åˆå§‹åŒ–
 void PIDControllerInit(PIDController* pid, double kp, double ki, double kd, double sample_time) {
     pid->kp = kp;
     pid->ki = ki;
     pid->kd = kd;
     pid->sample_time = sample_time;
     
-    // ³õÊ¼»¯ÀúÊ·Öµ
+    // åˆå§‹åŒ–åŽ†å²å€¼
     pid->dFiInPrev[0] = 0.0;
     pid->dFiInPrev[1] = 0.0;
     pid->dFiOutPrev[0] = 0.0;
@@ -23,50 +23,50 @@ void PIDControllerInit(PIDController* pid, double kp, double ki, double kd, doub
     pid->dFdOutPrev[1] = 0.0;
 }
 
-// PID¿ØÖÆÆ÷¸üÐÂ
+// PIDæŽ§åˆ¶å™¨æ›´æ–°
 double PIDControllerUpdate(PIDController* pid, double error) {
     volatile double fi_input, fd_input, fi_output, fd_output, pid_output;
     const double PI = 3.1415926;
     
-    // ¼ÆËã»ý·Ö²¿·ÖÊäÈë
+    // è®¡ç®—ç§¯åˆ†éƒ¨åˆ†è¾“å…¥
     fi_input = error * pid->kp * pid->ki * (2.0 * PI) * (pid->sample_time / 2.0);
     
-    // ¼ÆËãÎ¢·Ö²¿·ÖÊäÈë
+    // è®¡ç®—å¾®åˆ†éƒ¨åˆ†è¾“å…¥
     fd_input = error * pid->kp * (1 / pid->kd) * (1.0 / 2.0 / PI) * (2.0 / pid->sample_time);
     
-    // »ý·Ö²¿·Ö¼ÆËã
+    // ç§¯åˆ†éƒ¨åˆ†è®¡ç®—
     fi_output = (1.0) * fi_input +
                 (1.0) * pid->dFiInPrev[0] +
                 (0.0) * pid->dFiInPrev[1] -
                 (-1.0) * pid->dFiOutPrev[0] -
                 (0.0) * pid->dFiOutPrev[1];
     
-    // ¸üÐÂ»ý·Ö²¿·ÖÀúÊ·Öµ
+    // æ›´æ–°ç§¯åˆ†éƒ¨åˆ†åŽ†å²å€¼
     pid->dFiInPrev[1] = pid->dFiInPrev[0];
     pid->dFiInPrev[0] = fi_input;
     pid->dFiOutPrev[1] = pid->dFiOutPrev[0];
     pid->dFiOutPrev[0] = fi_output;
     
-    // Î¢·Ö²¿·Ö¼ÆËã
+    // å¾®åˆ†éƒ¨åˆ†è®¡ç®—
     fd_output = (1.0) * fd_input +
                 (-1.0) * pid->dFdInPrev[0] +
                 (0.0) * pid->dFdInPrev[1] -
                 (1.0) * pid->dFdOutPrev[0] -
                 (0.0) * pid->dFdOutPrev[1];
     
-    // ¸üÐÂÎ¢·Ö²¿·ÖÀúÊ·Öµ
+    // æ›´æ–°å¾®åˆ†éƒ¨åˆ†åŽ†å²å€¼
     pid->dFdInPrev[1] = pid->dFdInPrev[0];
     pid->dFdInPrev[0] = fd_input;
     pid->dFdOutPrev[1] = pid->dFdOutPrev[0];
     pid->dFdOutPrev[0] = fd_output;
     
-    // PID×ÜÊä³ö
+    // PIDæ€»è¾“å‡º
     pid_output = error * pid->kp + fi_output + fd_output;
     
     return pid_output;
 }
 
-// ÖØÖÃPID¿ØÖÆÆ÷
+// é‡ç½®PIDæŽ§åˆ¶å™¨
 void PIDControllerReset(PIDController* pid) {
     pid->dFiInPrev[0] = 0.0;
     pid->dFiInPrev[1] = 0.0;

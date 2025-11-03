@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "controlled_device.h": "c",
+        "notch_tf.h": "c",
+        "stdlib.h": "c"
+    }
+}

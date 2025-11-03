@@ -10,14 +10,14 @@
 #include <string.h>
 #include "Socket.h"
 #include "Safety_Faults.h"
-#include "fault_handler.h"     // ¹ÊÕÏ´¦ÀíÍ·ÎÄ¼ş
-// ¿ØÖÆÆ÷Í·ÎÄ¼ş
-#include "Controler.h"          // ¿ØÖÆÆ÷
-#include "Controlled_Device.h"  // ±»¿Ø¶ÔÏó
+#include "fault_handler.h"     // æ•…éšœå¤„ç†å¤´æ–‡ä»¶
+// æ§åˆ¶å™¨å¤´æ–‡ä»¶
+#include "Controler.h"          // æ§åˆ¶å™¨
+#include "Controlled_Device.h"  // è¢«æ§å¯¹è±¡
 
 static ControlSystemState g_controlState;
 
-// ĞŞ¸Ä InitControlData º¯Êı
+// ä¿®æ”¹ InitControlData å‡½æ•°
 void InitControlData(ControlData* data) {
     for(int i = 0; i < AXIS_COUNT; i++) {
         data->dTargetPosition[i] = 0.0;
@@ -26,24 +26,24 @@ void InitControlData(ControlData* data) {
         data->dControlForce[i] = 0.0;
         data->dOutputPosition[i] = 0.0;
 
-        // ³õÊ¼»¯°²È«¿ØÖÆÊı¾İ
+        // åˆå§‹åŒ–å®‰å…¨æ§åˆ¶æ•°æ®
         SafetyData[i].mode = CONTROL_MODE_CLOSED_LOOP;
         SafetyData[i].dLastValidOutput = 0.0;
     }
 }
 
-// ĞŞ¸Ä InitControlSystem º¯ÊıÖĞµÄ³õÊ¼»¯²¿·Ö
+// ä¿®æ”¹ InitControlSystem å‡½æ•°ä¸­çš„åˆå§‹åŒ–éƒ¨åˆ†
 int InitControlSystem(void)
 {
-    // ³õÊ¼»¯Õû¸ö½á¹¹ÌåÎª0
+    // åˆå§‹åŒ–æ•´ä¸ªç»“æ„ä½“ä¸º0
     memset(&g_controlState, 0, sizeof(g_controlState));
-    // ³õÊ¼»¯ÌØ¶¨³ÉÔ±
+    // åˆå§‹åŒ–ç‰¹å®šæˆå‘˜
     g_controlState.bControlRunning = 1;
     for(int i = 0; i < AXIS_COUNT; i++) {
         g_controlState.pContext[i] = NULL;
     }
     
-    // ³õÊ¼»¯¹ÊÕÏ´¦ÀíÏµÍ³
+    // åˆå§‹åŒ–æ•…éšœå¤„ç†ç³»ç»Ÿ
     vFault_Init();
     errno_t err = fopen_s(&g_controlState.pFile, "control_data.csv", "w");
     if(err != 0)
@@ -51,18 +51,18 @@ int InitControlSystem(void)
         fprintf(stderr,"Error: Cannot create CSV file!\n");
         return -1;
     }
-    //ÉèÖÃCSVÎÄ¼ş¾ä±ú
+    //è®¾ç½®CSVæ–‡ä»¶å¥æŸ„
     SetCSVFile(g_controlState.pFile);
-    // ĞŞ¸ÄCSVÎÄ¼şÍ·ÒÔÊÊÓ¦¶àÖáÊı¾İ
+    // ä¿®æ”¹CSVæ–‡ä»¶å¤´ä»¥é€‚åº”å¤šè½´æ•°æ®
     fprintf(g_controlState.pFile, "Step,Time(s)");
     fprintf(g_controlState.pFile, "TargetPosition_Axis,ActualPosition_Axis,Error_Axis,ControlForce_Axis,ControlMode_Axis");
-    // ³õÊ¼»¯Ã¿¸öÖáµÄ½á¹¹Ìå,°üÀ¨¿ØÖÆÆ÷£¬±»¿Ø¶ÔÏó
+    // åˆå§‹åŒ–æ¯ä¸ªè½´çš„ç»“æ„ä½“,åŒ…æ‹¬æ§åˆ¶å™¨ï¼Œè¢«æ§å¯¹è±¡
     for(int i = 0; i < AXIS_COUNT; i++) {
         RigidBodyTFInit(&g_controlState.plant[i], 16.0, SAMPLINGTIME);
         ControllerInit(&g_controlState.controller[i]);
     }
     InitControlData(&g_controlState.ctrl_data);
-    // ÎªÃ¿¸öÖá¹æ»®¹ì¼£
+    // ä¸ºæ¯ä¸ªè½´è§„åˆ’è½¨è¿¹
     stPlannerInput stInput;
     stInput.dDistance = 1.0;
     stInput.dVMax = 0.8;
@@ -71,20 +71,20 @@ int InitControlSystem(void)
     stInput.dDMax = 200.0;
     stInput.dSampleTime = 0.001;
     
-    // ÎªÃ¿¸öÖá½øĞĞ¹ì¼£¹æ»®
+    // ä¸ºæ¯ä¸ªè½´è¿›è¡Œè½¨è¿¹è§„åˆ’
     for (int axis = 0; axis < AXIS_COUNT; axis++)
     {
         g_controlState.pContext[axis] = FourthOrderPlannerInit(&stInput);
         if (g_controlState.pContext[axis] == NULL) {
-            //³õÊ¼»¯Ê§°Ü£¬´òÓ¡´íÎó²¢ÍË³ö
+            //åˆå§‹åŒ–å¤±è´¥ï¼Œæ‰“å°é”™è¯¯å¹¶é€€å‡º
             fprintf(stderr, "Trajectory planner initialization failed!\n");
             return -1;
         }
     }
-    // ³õÊ¼»¯Ã¿ÖáµÄ¶ÀÁ¢×´Ì¬
+    // åˆå§‹åŒ–æ¯è½´çš„ç‹¬ç«‹çŠ¶æ€
     for(int i = 0; i < AXIS_COUNT; i++) {
         g_controlState.iControlStepPerAxis[i] = 0;
-        g_controlState.bAxisActive[i] = 0;  // ³õÊ¼Ê±²»¼¤»îÈÎºÎÖá
+        g_controlState.bAxisActive[i] = 0;  // åˆå§‹æ—¶ä¸æ¿€æ´»ä»»ä½•è½´
     }
 
     g_controlState.bTrajectoryReady = 1;
@@ -94,35 +94,35 @@ int InitControlSystem(void)
     return 0;
 }
 
-// ĞŞ¸ÄExecuteControlStepº¯ÊıÒÔÖ§³Öµ¥ÖáºÍ¶àÖá¿ØÖÆ
+// ä¿®æ”¹ExecuteControlStepå‡½æ•°ä»¥æ”¯æŒå•è½´å’Œå¤šè½´æ§åˆ¶
 int ExecuteControlStep(int axisMask)
 {
     if(!g_controlState.bTrajectoryReady || !g_controlState.bControlRunning)
         return -1;
 
-    // ¼ì²éÏµÍ³¹ÊÕÏ
+    // æ£€æŸ¥ç³»ç»Ÿæ•…éšœ
     if (bFault_GetSystemFault()) {
         printf("SYSTEM FAULT DETECTED! Stopping control system.\n");
         g_controlState.bControlRunning = 0;
         return -1;
     }    
     
-    // ÎªÖ¸¶¨ÖáÖ´ĞĞ¿ØÖÆ²½Öè
+    // ä¸ºæŒ‡å®šè½´æ‰§è¡Œæ§åˆ¶æ­¥éª¤
     for(int axis = 0; axis < AXIS_COUNT; axis++) {
-        // ¼ì²éÊÇ·ñĞèÒª¿ØÖÆ´ËÖá (axisMaskµÄµÚaxisÎ»Îª1±íÊ¾ĞèÒª¿ØÖÆ)
+        // æ£€æŸ¥æ˜¯å¦éœ€è¦æ§åˆ¶æ­¤è½´ (axisMaskçš„ç¬¬axisä½ä¸º1è¡¨ç¤ºéœ€è¦æ§åˆ¶)
         if (!(axisMask & (1 << axis))) {
-            continue; // ²»ĞèÒª¿ØÖÆµÄÖáÌø¹ı
+            continue; // ä¸éœ€è¦æ§åˆ¶çš„è½´è·³è¿‡
         }
 
-        // ½«ÖáÉèÖÃÎª¼¤»î×´Ì¬
+        // å°†è½´è®¾ç½®ä¸ºæ¿€æ´»çŠ¶æ€
         g_controlState.bAxisActive[axis] = 1;
         
-        // ¼ì²éÊÇ·ñ³¬¹ı×Ü²½Êı
+        // æ£€æŸ¥æ˜¯å¦è¶…è¿‡æ€»æ­¥æ•°
         if (g_controlState.iControlStepPerAxis[axis] >= TOTALSTEPS) {
             continue;
         }
 
-        // ¼ì²éÖá¹ÊÕÏ
+        // æ£€æŸ¥è½´æ•…éšœ
         if (bFault_GetAxisFault(axis)) {
             printf("AXIS %d FAULT DETECTED! Switching to safe mode.\n", axis);
             SafetyData[axis].mode = CONTROL_MODE_OPEN_LOOP;
@@ -130,48 +130,48 @@ int ExecuteControlStep(int axisMask)
             continue;
         }
 
-        // ¼ÆËã¸ÃÖáµÄÊ±¼ä
+        // è®¡ç®—è¯¥è½´çš„æ—¶é—´
         double time = g_controlState.iControlStepPerAxis[axis] * SAMPLINGTIME;
 
-        // »ñÈ¡Ä¿±êÎ»ÖÃ(Ê¹ÓÃÔ¤¼ÆËãµÄ¹ì¼£)
+        // è·å–ç›®æ ‡ä½ç½®(ä½¿ç”¨é¢„è®¡ç®—çš„è½¨è¿¹)
         if (FourthOrderPlannerGetNextPoint(g_controlState.pContext[axis], &g_controlState.currentPoint[axis]) == 0)
         {
             g_controlState.ctrl_data.dTargetPosition[axis] = g_controlState.currentPoint[axis].dPos;
         }
         else
         {
-            printf("ËÄ½×¹ì¼£µ÷ÓÃ½áÊø");
+            printf("å››é˜¶è½¨è¿¹è°ƒç”¨ç»“æŸ");
         }
-        // »ñÈ¡Êµ¼ÊÎ»ÖÃ
+        // è·å–å®é™…ä½ç½®
         g_controlState.ctrl_data.dActualPosition[axis] = g_controlState.plant[axis].out_prev[0];
 
-        // ¼ÆËãÎó²î
+        // è®¡ç®—è¯¯å·®
         g_controlState.ctrl_data.dError[axis] = g_controlState.ctrl_data.dTargetPosition[axis] - g_controlState.ctrl_data.dActualPosition[axis];
         
-        // ¸üĞÂ¿ØÖÆÆ÷
+        // æ›´æ–°æ§åˆ¶å™¨
         double raw_control_force = ControllerUpdate(&g_controlState.controller[axis], g_controlState.ctrl_data.dError[axis]);
         
-        // Ó¦ÓÃ°²È«¿ØÖÆ
+        // åº”ç”¨å®‰å…¨æ§åˆ¶
         g_controlState.ctrl_data.dControlForce[axis] = ApplySafetyControl(axis, raw_control_force, g_controlState.ctrl_data.dError[axis], &g_controlState);
         
-        // ¸üĞÂ¹ÊÕÏ¼ì²âÏµÍ³×´Ì¬
+        // æ›´æ–°æ•…éšœæ£€æµ‹ç³»ç»ŸçŠ¶æ€
         vFault_UpdateAxis(axis);
 
-        // ¸üĞÂ±»¿ØÉè±¸ÏµÍ³
+        // æ›´æ–°è¢«æ§è®¾å¤‡ç³»ç»Ÿ
         g_controlState.ctrl_data.dOutputPosition[axis] = RigidBodyTFUpdate(&g_controlState.plant[axis], g_controlState.ctrl_data.dControlForce[axis]);
         
-        // Ôö¼Ó¸ÃÖáµÄ²½½ø¼ÆÊıÆ÷
+        // å¢åŠ è¯¥è½´çš„æ­¥è¿›è®¡æ•°å™¨
         g_controlState.iControlStepPerAxis[axis]++;
     }
     
-    // ¸üĞÂ¹ÊÕÏ¼ì²âÏµÍ³ÕûÌå×´Ì¬
+    // æ›´æ–°æ•…éšœæ£€æµ‹ç³»ç»Ÿæ•´ä½“çŠ¶æ€
     vFault_UpdateSystem();
     
-    // ´òÓ¡¿ØÖÆ½á¹û - Ö»´òÓ¡±»¿ØÖÆµÄÖá
+    // æ‰“å°æ§åˆ¶ç»“æœ - åªæ‰“å°è¢«æ§åˆ¶çš„è½´
     printf("Step: %d", g_controlState.iControlStep);
     for(int axis = 0; axis < AXIS_COUNT; axis++) {
         if (axisMask & (1 << axis)) {
-            double time = (g_controlState.iControlStepPerAxis[axis] - 1) * SAMPLINGTIME; // ¼õ1ÊÇÒòÎªÉÏÃæÒÑµİÔö
+            double time = (g_controlState.iControlStepPerAxis[axis] - 1) * SAMPLINGTIME; // å‡1æ˜¯å› ä¸ºä¸Šé¢å·²é€’å¢
             char mode_str = (SafetyData[axis].mode == CONTROL_MODE_CLOSED_LOOP) ? 'C' : 'O';
             printf(" | Axis%d: Time=%.3fs, Target=%.12f, Actual=%.15f, Error=%.13f, Force=%.9f (%c)", 
                    axis,
@@ -185,13 +185,13 @@ int ExecuteControlStep(int axisMask)
     }
     printf("\n");
 
-    // Ğ´ÈëCSVÊı¾İ
+    // å†™å…¥CSVæ•°æ®
     int controlMode[AXIS_COUNT];
     for(int axis = 0; axis < AXIS_COUNT; axis++) {
         controlMode[axis] = SafetyData[axis].mode;
     }
     
-    // Ê¹ÓÃµÚÒ»¸ö±»¿ØÖÆÖáµÄÊ±¼ä×÷Îª¼ÇÂ¼Ê±¼ä´Á
+    // ä½¿ç”¨ç¬¬ä¸€ä¸ªè¢«æ§åˆ¶è½´çš„æ—¶é—´ä½œä¸ºè®°å½•æ—¶é—´æˆ³
     double recordTime = 0.0;
     for(int axis = 0; axis < AXIS_COUNT; axis++) {
         if (axisMask & (1 << axis)) {
@@ -207,9 +207,9 @@ int ExecuteControlStep(int axisMask)
                         (double*)g_controlState.ctrl_data.dControlForce,
                         controlMode);
     
-    // Êı¾İÓĞĞ§ĞÔ¼ì²é
+    // æ•°æ®æœ‰æ•ˆæ€§æ£€æŸ¥
     for(int axis = 0; axis < AXIS_COUNT; axis++) {
-        // Ö»¼ì²é±»¿ØÖÆµÄÖá
+        // åªæ£€æŸ¥è¢«æ§åˆ¶çš„è½´
         if (axisMask & (1 << axis)) {
             if (isnan(g_controlState.ctrl_data.dError[axis]) || isinf(g_controlState.ctrl_data.dError[axis]) ||
                 isnan(g_controlState.ctrl_data.dControlForce[axis]) || isinf(g_controlState.ctrl_data.dControlForce[axis])) {
@@ -222,7 +222,7 @@ int ExecuteControlStep(int axisMask)
     g_controlState.iControlStep++;
     return 0;
 }
-// ĞŞ¸ÄProcessCommandº¯ÊıÒÔÖ§³Öµ¥ÖáºÍ¶àÖá¿ØÖÆ
+// ä¿®æ”¹ProcessCommandå‡½æ•°ä»¥æ”¯æŒå•è½´å’Œå¤šè½´æ§åˆ¶
 void ProcessCommand(struct RxData* pRxData) {
     if (pRxData == NULL) {
         return;
@@ -231,56 +231,56 @@ void ProcessCommand(struct RxData* pRxData) {
     printf("Processing command: CMD=%d, Axis=%d\n", pRxData->iCMD, pRxData->axis);
 
     switch (pRxData->iCMD) {
-        case 1: // ¿ØÖÆÖáÔË¶¯
+        case 1: // æ§åˆ¶è½´è¿åŠ¨
             {
                 int axisMask = 0;
-                // ¸ù¾İaxisÖµÈ·¶¨¿ØÖÆÄÄĞ©Öá
-                // axis=1 ¿ØÖÆÖá0
-                // axis=2 ¿ØÖÆÖá1
-                // axis=3 ¿ØÖÆÖá0ºÍÖá1
+                // æ ¹æ®axiså€¼ç¡®å®šæ§åˆ¶å“ªäº›è½´
+                // axis=1 æ§åˆ¶è½´0
+                // axis=2 æ§åˆ¶è½´1
+                // axis=3 æ§åˆ¶è½´0å’Œè½´1
                 if (pRxData->axis == 1) {
-                    axisMask = 1;  // ¿ØÖÆÖá0
+                    axisMask = 1;  // æ§åˆ¶è½´0
                     printf("Controlling axis 0\n");
                 } else if (pRxData->axis == 2) {
-                    axisMask = 2;  // ¿ØÖÆÖá1
+                    axisMask = 2;  // æ§åˆ¶è½´1
                     printf("Controlling axis 1\n");
                 } else if (pRxData->axis == 3) {
-                    axisMask = 3;  // ¿ØÖÆÖá0ºÍÖá1
+                    axisMask = 3;  // æ§åˆ¶è½´0å’Œè½´1
                     printf("Controlling axis 0 and 1\n");
                 } else {
                     printf("ERROR: Invalid axis value %d for CMD 1\n", pRxData->axis);
                     return;
                 }
                 
-                // Ö´ĞĞ¿ØÖÆ²½Öè
+                // æ‰§è¡Œæ§åˆ¶æ­¥éª¤
                 if(ExecuteControlStep(axisMask) != 0) {
                     printf("ERROR: Control step execution failed\n");
                 }
             }
             break;
             
-        case 2: // ÖØÖÃ¿ØÖÆ²½½ø¼ÆÊıÆ÷
+        case 2: // é‡ç½®æ§åˆ¶æ­¥è¿›è®¡æ•°å™¨
             printf("Resetting control step counter\n");
             g_controlState.iControlStep = 0;
-            // Í¬Ê±ÖØÖÃ¸÷ÖáµÄ²½½ø¼ÆÊıÆ÷
+            // åŒæ—¶é‡ç½®å„è½´çš„æ­¥è¿›è®¡æ•°å™¨
             for(int i = 0; i < AXIS_COUNT; i++) {
                 g_controlState.iControlStepPerAxis[i] = 0;
                 g_controlState.bAxisActive[i] = 0;
             }
             break;
             
-        case 3: // Ö´ĞĞ¶à²½¿ØÖÆ
+        case 3: // æ‰§è¡Œå¤šæ­¥æ§åˆ¶
             {
                 int axisMask = 0;
-                // ¸ù¾İaxisÖµÈ·¶¨¿ØÖÆÄÄĞ©Öá
+                // æ ¹æ®axiså€¼ç¡®å®šæ§åˆ¶å“ªäº›è½´
                 if (pRxData->axis == 1) {
-                    axisMask = 1;  // ¿ØÖÆÖá0
+                    axisMask = 1;  // æ§åˆ¶è½´0
                     printf("Controlling axis 0\n");
                 } else if (pRxData->axis == 2) {
-                    axisMask = 2;  // ¿ØÖÆÖá1
+                    axisMask = 2;  // æ§åˆ¶è½´1
                     printf("Controlling axis 1\n");
                 } else if (pRxData->axis == 3) {
-                    axisMask = 3;  // ¿ØÖÆÖá0ºÍÖá1
+                    axisMask = 3;  // æ§åˆ¶è½´0å’Œè½´1
                     printf("Controlling axis 0 and 1\n");
                 } else {
                     printf("ERROR: Invalid axis value %d for CMD 3\n", pRxData->axis);
@@ -290,7 +290,7 @@ void ProcessCommand(struct RxData* pRxData) {
                 int stepsToExecute = (int)pRxData->dParamData[0];
                 printf("Executing %d control steps\n", stepsToExecute);
                 for(int i = 0; i < stepsToExecute; i++) {
-                    // ¼ì²éËùÓĞÉæ¼°ÖáÊÇ·ñ¶¼Î´³¬¹ı×Ü²½Êı
+                    // æ£€æŸ¥æ‰€æœ‰æ¶‰åŠè½´æ˜¯å¦éƒ½æœªè¶…è¿‡æ€»æ­¥æ•°
                     int canContinue = 1;
                     for(int axis = 0; axis < AXIS_COUNT; axis++) {
                         if ((axisMask & (1 << axis)) && g_controlState.iControlStepPerAxis[axis] >= TOTALSTEPS) {
@@ -312,24 +312,24 @@ void ProcessCommand(struct RxData* pRxData) {
             }
             break;
             
-        case 4: // ½ô¼±Í£Ö¹
+        case 4: // ç´§æ€¥åœæ­¢
             printf("Emergency stop\n");
             g_controlState.bControlRunning = 0;
-            // ´¥·¢Ó²¼ş½ô¼±Í£Ö¹¹ÊÕÏ
+            // è§¦å‘ç¡¬ä»¶ç´§æ€¥åœæ­¢æ•…éšœ
             for(int axis = 0; axis < AXIS_COUNT && axis < 8; axis++) {
                 g_atAxisFaults[axis].m_bRawFault[FAULT_HARDWARE_EMERGENCY_STOP] = true;
                 vFault_UpdateAxis(axis);
             }
             vFault_UpdateSystem();
-            // ÇĞ»»µ½¿ª»·Ä£Ê½×÷Îª°²È«´ëÊ©
+            // åˆ‡æ¢åˆ°å¼€ç¯æ¨¡å¼ä½œä¸ºå®‰å…¨æªæ–½
             for(int axis = 0; axis < AXIS_COUNT; axis++) {
                 SafetyData[axis].mode = CONTROL_MODE_OPEN_LOOP;
-                g_controlState.ctrl_data.dControlForce[axis] = 0.0; // Çå³ı¿ØÖÆÁ¦
+                g_controlState.ctrl_data.dControlForce[axis] = 0.0; // æ¸…é™¤æ§åˆ¶åŠ›
                 printf("Axis %d switched to safe open-loop mode\n", axis);
             }                
             break;
             
-        case 5: // ÉèÖÃĞÂµÄ¹ì¼£²ÎÊı
+        case 5: // è®¾ç½®æ–°çš„è½¨è¿¹å‚æ•°
             {
                 int targetAxis = pRxData->axis;
                 if (targetAxis < 0 || targetAxis >= AXIS_COUNT) {
@@ -339,7 +339,7 @@ void ProcessCommand(struct RxData* pRxData) {
                 
                 printf("Setting new trajectory parameters for axis %d\n", targetAxis);
                 
-                // ÖØĞÂ³õÊ¼»¯¹ì¼£¹æ»®Æ÷
+                // é‡æ–°åˆå§‹åŒ–è½¨è¿¹è§„åˆ’å™¨
                 stPlannerInput stInput;
                 stInput.dDistance = (pRxData->dParamData[0] != 0.0) ? pRxData->dParamData[0] : 1.0;
                 stInput.dVMax = (pRxData->dParamData[1] != 0.0) ? pRxData->dParamData[1] : 0.8;
@@ -348,13 +348,13 @@ void ProcessCommand(struct RxData* pRxData) {
                 stInput.dDMax = (pRxData->dParamData[4] != 0.0) ? pRxData->dParamData[4] : 200.0;
                 stInput.dSampleTime = SAMPLINGTIME;
                 
-                // ÊÍ·Å¾ÉµÄ¹ì¼£¹æ»®Æ÷
+                // é‡Šæ”¾æ—§çš„è½¨è¿¹è§„åˆ’å™¨
                 if (g_controlState.pContext[targetAxis] != NULL) {
                     free(g_controlState.pContext[targetAxis]);
                     g_controlState.pContext[targetAxis] = NULL;
                 }
                 
-                // ´´½¨ĞÂµÄ¹ì¼£¹æ»®Æ÷
+                // åˆ›å»ºæ–°çš„è½¨è¿¹è§„åˆ’å™¨
                 g_controlState.pContext[targetAxis] = FourthOrderPlannerInit(&stInput);
                 if (g_controlState.pContext[targetAxis] == NULL) {
                     fprintf(stderr, "Trajectory planner initialization failed for axis %d!\n", targetAxis);
@@ -369,7 +369,7 @@ void ProcessCommand(struct RxData* pRxData) {
             }
             break;
             
-        case 6: // ĞŞ¸Ä¿ØÖÆÆ÷²ÎÊı
+        case 6: // ä¿®æ”¹æ§åˆ¶å™¨å‚æ•°
             {
                 int targetAxis = pRxData->axis;
                 if (targetAxis < 0 || targetAxis >= AXIS_COUNT) {
@@ -379,7 +379,7 @@ void ProcessCommand(struct RxData* pRxData) {
                 
                 printf("Modifying controller parameters for axis %d\n", targetAxis);
                 
-                // ĞŞ¸ÄPID¿ØÖÆÆ÷²ÎÊı
+                // ä¿®æ”¹PIDæ§åˆ¶å™¨å‚æ•°
                 if (pRxData->dParamData[0] != 0.0) {
                     g_controlState.controller[targetAxis].pid.kp = pRxData->dParamData[0];
                     printf("Set Kp to %.6f\n", pRxData->dParamData[0]);
@@ -395,7 +395,7 @@ void ProcessCommand(struct RxData* pRxData) {
                     printf("Set Kd to %.6f\n", pRxData->dParamData[2]);
                 }
                 
-                // // ĞŞ¸ÄµÍÍ¨ÂË²¨Æ÷²ÎÊı
+                // // ä¿®æ”¹ä½é€šæ»¤æ³¢å™¨å‚æ•°
                 // if (pRxData->dParamData[3] != 0.0) {
                 //     g_controlState.controller[targetAxis].lpf.frequency = pRxData->dParamData[3];
                 //     printf("Set LPF frequency to %.6f\n", pRxData->dParamData[3]);
@@ -403,7 +403,7 @@ void ProcessCommand(struct RxData* pRxData) {
             }
             break;
             
-        case 7: // ²éÑ¯ÏµÍ³×´Ì¬
+        case 7: // æŸ¥è¯¢ç³»ç»ŸçŠ¶æ€
             {
                 int targetAxis = pRxData->axis;
                 if (targetAxis < 0 || targetAxis >= AXIS_COUNT) {
@@ -419,12 +419,12 @@ void ProcessCommand(struct RxData* pRxData) {
                 printf("  Control force: %.9f\n", g_controlState.ctrl_data.dControlForce[targetAxis]);
                 printf("  Output position: %.12f\n", g_controlState.ctrl_data.dOutputPosition[targetAxis]);
                 
-                // ÏÔÊ¾¿ØÖÆÆ÷²ÎÊı
+                // æ˜¾ç¤ºæ§åˆ¶å™¨å‚æ•°
                 printf("  Controller Kp: %.6f\n", g_controlState.controller[targetAxis].pid.kp);
                 printf("  Controller Ki: %.6f\n", g_controlState.controller[targetAxis].pid.ki);
                 printf("  Controller Kd: %.6f\n", g_controlState.controller[targetAxis].pid.kd);
                 
-                // ÏÔÊ¾¹ì¼£²ÎÊı
+                // æ˜¾ç¤ºè½¨è¿¹å‚æ•°
                 if (g_controlState.pContext[targetAxis] != NULL) {
                     printf("  Trajectory distance: %.6f\n", g_controlState.pContext[targetAxis]->stInput.dDistance);
                     printf("  Trajectory VMax: %.6f\n", g_controlState.pContext[targetAxis]->stInput.dVMax);
@@ -433,22 +433,22 @@ void ProcessCommand(struct RxData* pRxData) {
             }
             break;
             
-        case 8: // Í¬Ê±¿ØÖÆËùÓĞÖá
+        case 8: // åŒæ—¶æ§åˆ¶æ‰€æœ‰è½´
             {
-                // ¿ØÖÆËùÓĞÖá (Ê¹ÓÃÈ«1ÑÚÂë)
+                // æ§åˆ¶æ‰€æœ‰è½´ (ä½¿ç”¨å…¨1æ©ç )
                 int axisMask = (1 << AXIS_COUNT) - 1;
                 printf("Controlling all axes\n");
                 
-                // Ö´ĞĞµ¥²½¿ØÖÆ
+                // æ‰§è¡Œå•æ­¥æ§åˆ¶
                 if(ExecuteControlStep(axisMask) != 0) {
                     printf("ERROR: Control step execution failed\n");
                 }
             }
             break;
             
-        case 9: // Ö´ĞĞËùÓĞÖáµÄ¶à²½¿ØÖÆ
+        case 9: // æ‰§è¡Œæ‰€æœ‰è½´çš„å¤šæ­¥æ§åˆ¶
             {
-                // ¿ØÖÆËùÓĞÖá (Ê¹ÓÃÈ«1ÑÚÂë)
+                // æ§åˆ¶æ‰€æœ‰è½´ (ä½¿ç”¨å…¨1æ©ç )
                 int axisMask = (1 << AXIS_COUNT) - 1;
                 int stepsToExecute = (int)pRxData->dParamData[0];
                 printf("Executing %d control steps on all axes\n", stepsToExecute);
@@ -461,7 +461,7 @@ void ProcessCommand(struct RxData* pRxData) {
             }
             break;
             
-        case 999: // ¶Ï¿ªÁ¬½Ó
+        case 999: // æ–­å¼€è¿æ¥
             printf("Received disconnect command\n");
             g_controlState.bControlRunning = 0;
             break;
@@ -472,19 +472,19 @@ void ProcessCommand(struct RxData* pRxData) {
     }
 }
 
-// ÔÚ ExecuteSocketCommand º¯ÊıÖĞÌí¼Ó¶ÔÖá²ÎÊıµÄÖ§³Ö
+// åœ¨ ExecuteSocketCommand å‡½æ•°ä¸­æ·»åŠ å¯¹è½´å‚æ•°çš„æ”¯æŒ
 void ExecuteSocketCommand(void)
 {
     if(g_bDataReceived)
     {
-        // Ê¹ÓÃĞÂµÄÖ¸Áî½âÎöº¯Êı´¦ÀíÃüÁî
+        // ä½¿ç”¨æ–°çš„æŒ‡ä»¤è§£æå‡½æ•°å¤„ç†å‘½ä»¤
         ProcessCommand(&g_rxData);
         
         g_bDataReceived = 0;
     }
 }
 
-// ÇåÀí¿ØÖÆ×ÊÔ´
+// æ¸…ç†æ§åˆ¶èµ„æº
 void CleanupControlSystem(void)
 {
     if(g_controlState.pFile != NULL)
@@ -496,10 +496,10 @@ void CleanupControlSystem(void)
     g_controlState.bControlRunning = 0;
     printf("Control system cleaned up\n");
 }
-// Socket»Øµ÷º¯Êı
+// Socketå›è°ƒå‡½æ•°
 void SocketDataCallback(struct RxData* pData)
 {
-    // Êı¾İÒÑ¾­ÔÚÈ«¾Ö±äÁ¿g_rxDataÖĞ£¬ÕâÀï¿ÉÒÔÌí¼Ó¶îÍâ´¦Àí
+    // æ•°æ®å·²ç»åœ¨å…¨å±€å˜é‡g_rxDataä¸­ï¼Œè¿™é‡Œå¯ä»¥æ·»åŠ é¢å¤–å¤„ç†
     if(pData != NULL)
     {
         printf("Socket data received in callback: CMD=%d\n", pData->iCMD);
@@ -512,24 +512,24 @@ void* ControlThreadFunction(void* param)
     printf("==========================================\n");
     printf("Waiting for socket commands to execute control steps...\n");
     
-    // ³õÊ¼»¯¿ØÖÆÏµÍ³
+    // åˆå§‹åŒ–æ§åˆ¶ç³»ç»Ÿ
     if(InitControlSystem() != 0)
     {
         fprintf(stderr, "Failed to initialize control system\n");
         return NULL;
     }
     
-    // ¿ØÖÆÏß³ÌµÄÖ÷Ñ­»·
+    // æ§åˆ¶çº¿ç¨‹çš„ä¸»å¾ªç¯
     while(g_controlState.bControlRunning)
     {
-        // ¼ì²é²¢´¦ÀíSocketÃüÁî
+        // æ£€æŸ¥å¹¶å¤„ç†Socketå‘½ä»¤
         ExecuteSocketCommand();
         
-        // ¶ÌÔİÑÓÊ±±ÜÃâCPUÕ¼ÓÃ¹ı¸ß
+        // çŸ­æš‚å»¶æ—¶é¿å…CPUå ç”¨è¿‡é«˜
         Sleep(10);
     }
     
-    // ÇåÀí×ÊÔ´
+    // æ¸…ç†èµ„æº
     CleanupControlSystem();
     
     printf("Control thread exiting\n");
@@ -542,7 +542,7 @@ void* SocketThreadFunction(void* param)
     
     printf("Socket thread started on port %d\n", port);
     
-    // Æô¶¯Socket·şÎñÆ÷£¨»á×èÈûÖ±µ½¿Í»§¶Ë¶Ï¿ª£©
+    // å¯åŠ¨SocketæœåŠ¡å™¨ï¼ˆä¼šé˜»å¡ç›´åˆ°å®¢æˆ·ç«¯æ–­å¼€ï¼‰
     int result = RunSocketServer(port, SocketDataCallback);
     
     if(result == 0)

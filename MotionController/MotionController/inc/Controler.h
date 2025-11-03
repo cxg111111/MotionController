@@ -5,14 +5,14 @@
 #include "LowPassFilter.h"
 #include "Notch_TF.h"
 
-// ¿ØÖÆÆ÷½á¹¹Ìå
+// æŽ§åˆ¶å™¨ç»“æž„ä½“
 typedef struct {
-    PIDController pid;      // PID¿ØÖÆÆ÷
-    LowPassFilter lpf;      // µÍÍ¨ÂË²¨Æ÷
-    SNotchTF notch;         //ÏÝ²¨ÂË²¨Æ÷
+    PIDController pid;      // PIDæŽ§åˆ¶å™¨
+    LowPassFilter lpf;      // ä½Žé€šæ»¤æ³¢å™¨
+    SNotchTF notch;         //é™·æ³¢æ»¤æ³¢å™¨
 } Controller;
 
-// º¯ÊýÉùÃ÷
+// å‡½æ•°å£°æ˜Ž
 void ControllerInit(Controller *controller);
 double ControllerUpdate(Controller * controller, double error);
 

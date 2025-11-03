@@ -2,23 +2,23 @@
 #define NOTCH_TF_H
 
 typedef struct {
-    // ÏµÍ³×´Ì¬±äÁ¿
-    double dOutPrev[2];  // Êä³öÀúÊ·Öµ
-    double dInPrev[2];   // ÊäÈëÀúÊ·Öµ
+    // ç³»ç»ŸçŠ¶æ€å˜é‡
+    double dOutPrev[2];  // è¾“å‡ºå†å²å€¼
+    double dInPrev[2];   // è¾“å…¥å†å²å€¼
     
-    // ÂË²¨Æ÷ÏµÊı
-    double dA0, dA1, dA2;   // ·ÖÄ¸ÏµÊı
-    double dB0, dB1, dB2;   // ·Ö×ÓÏµÊı
+    // æ»¤æ³¢å™¨ç³»æ•°
+    double dA0, dA1, dA2;   // åˆ†æ¯ç³»æ•°
+    double dB0, dB1, dB2;   // åˆ†å­ç³»æ•°
     
-    // ²ÎÊı
-    double dNotchFreq;      // Ïİ²¨ÆµÂÊ
-    double dNotchFreqPole;  // ¼«µãÆµÂÊ
-    double dNotchDampZero;  // Áãµã×èÄá
-    double dNotchDampPole;  // ¼«µã×èÄá
-    double dTs;             // ²ÉÑùÊ±¼ä
+    // å‚æ•°
+    double dNotchFreq;      // é™·æ³¢é¢‘ç‡
+    double dNotchFreqPole;  // æç‚¹é¢‘ç‡
+    double dNotchDampZero;  // é›¶ç‚¹é˜»å°¼
+    double dNotchDampPole;  // æç‚¹é˜»å°¼
+    double dTs;             // é‡‡æ ·æ—¶é—´
 } SNotchTF;
 
-// º¯ÊıÉùÃ÷
+// å‡½æ•°å£°æ˜
 void NotchTFInit(SNotchTF* psFilter,double NotchFreq,double NotchFreqPole,double NotchDampZero,double samNotchDampPole,double sample_time);
 double NotchTFUpdate(SNotchTF* psFilter, double dInput);
 void NotchTFReset(SNotchTF* psFilter);

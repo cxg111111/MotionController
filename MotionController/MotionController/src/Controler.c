@@ -3,7 +3,7 @@
 #include "Controler.h"
 #include "Notch_TF.h"
 
-/* ¿ØÖÆÆ÷²ÎÊý¶¨Òå */
+/* æŽ§åˆ¶å™¨å‚æ•°å®šä¹‰ */
 #define KP 500000.0
 #define KI 10.0
 #define KD 20.0
@@ -16,25 +16,25 @@
 #define NotchDampZero 0.01
 #define NotchDampPole 0.05
 
-#define SAMPLING_TIME 0.001 //²ÉÑùÊ±¼ä 1ms
+#define SAMPLING_TIME 0.001 //é‡‡æ ·æ—¶é—´ 1ms
 
-/* ³õÊ¼»¯¿ØÖÆÆ÷ */
+/* åˆå§‹åŒ–æŽ§åˆ¶å™¨ */
 void ControllerInit(Controller *ctrl) {
-    // ³õÊ¼»¯PID¿ØÖÆÆ÷
+    // åˆå§‹åŒ–PIDæŽ§åˆ¶å™¨
     PIDControllerInit(&ctrl->pid, KP, KI, KD, SAMPLING_TIME);
-    // ³õÊ¼»¯µÍÍ¨ÂË²¨Æ÷
+    // åˆå§‹åŒ–ä½Žé€šæ»¤æ³¢å™¨
     LowPassFilterInit(&ctrl->lpf, LPF_FREQ, LPF_DAMP, SAMPLING_TIME);
-    //³õÊ¼»¯ÏÝ²¨ÂË²¨Æ÷
+    //åˆå§‹åŒ–é™·æ³¢æ»¤æ³¢å™¨
     NotchTFInit(&ctrl->notch, NotchFreq, NotchFreqPole, NotchDampZero, NotchDampPole, SAMPLING_TIME);
 }
 
-/* ¿ØÖÆÆ÷¸üÐÂº¯Êý */
+/* æŽ§åˆ¶å™¨æ›´æ–°å‡½æ•° */
 double ControllerUpdate(Controller *ctrl, double error) {
-    // Ê¹ÓÃPID¿ØÖÆÆ÷¼ÆËã¿ØÖÆÊä³ö
+    // ä½¿ç”¨PIDæŽ§åˆ¶å™¨è®¡ç®—æŽ§åˆ¶è¾“å‡º
     double dPidOutput = PIDControllerUpdate(&ctrl->pid, error);
-    // Ê¹ÓÃµÍÍ¨ÂË²¨Æ÷¶ÔPIDÊä³ö½øÐÐÂË²¨
+    // ä½¿ç”¨ä½Žé€šæ»¤æ³¢å™¨å¯¹PIDè¾“å‡ºè¿›è¡Œæ»¤æ³¢
     double dFilteredOutput = LowPassFilterUpdate(&ctrl->lpf, dPidOutput);
-    //Ê¹ÓÃÏÝ²¨ÂË²¨Æ÷¶ÔÊä³ö½øÐÐÂË²¨
+    //ä½¿ç”¨é™·æ³¢æ»¤æ³¢å™¨å¯¹è¾“å‡ºè¿›è¡Œæ»¤æ³¢
     double dNotchOutput = NotchTFUpdate(&ctrl->notch, dFilteredOutput);
     
     return dNotchOutput;

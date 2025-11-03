@@ -5,43 +5,43 @@
 
 #define PI 3.1415926
 
-// µÍÍ¨ÂË²¨Æ÷³õÊ¼»¯
+// ä½Žé€šæ»¤æ³¢å™¨åˆå§‹åŒ–
 void LowPassFilterInit(LowPassFilter* lpf, double cutoff_freq, double damping, double sample_time) {
     lpf->sample_time = sample_time;
     
-    // ¼ÆËãÂË²¨Æ÷ÏµÊý
+    // è®¡ç®—æ»¤æ³¢å™¨ç³»æ•°
     double coef = 2.0 * PI * cutoff_freq * sample_time;
     double coef_sq = coef * coef;
     
-    // ·Ö×ÓÏµÊý
+    // åˆ†å­ç³»æ•°
     lpf->b0 = coef_sq;
     lpf->b1 = 2.0 * coef_sq;
     lpf->b2 = coef_sq;
     
-    // ·ÖÄ¸ÏµÊý
+    // åˆ†æ¯ç³»æ•°
     lpf->a0 = 4.0 + 4.0 * damping * coef + coef_sq;
     lpf->a1 = -8.0 + 2.0 * coef_sq;
     lpf->a2 = 4.0 - 4.0 * damping * coef + coef_sq;
     
-    // ³õÊ¼»¯ÀúÊ·Öµ
+    // åˆå§‹åŒ–åŽ†å²å€¼
     lpf->dInPrev[0] = 0.0;
     lpf->dInPrev[1] = 0.0;
     lpf->dOutPrev[0] = 0.0;
     lpf->dOutPrev[1] = 0.0;
 }
 
-// µÍÍ¨ÂË²¨Æ÷¸üÐÂ
+// ä½Žé€šæ»¤æ³¢å™¨æ›´æ–°
 double LowPassFilterUpdate(LowPassFilter* lpf, double input) {
     double output;
     
-    // ÂË²¨Æ÷¼ÆËã
+    // æ»¤æ³¢å™¨è®¡ç®—
     output = (lpf->b0 * input +
               lpf->b1 * lpf->dInPrev[0] +
               lpf->b2 * lpf->dInPrev[1] -
               lpf->a1 * lpf->dOutPrev[0] -
               lpf->a2 * lpf->dOutPrev[1]) / lpf->a0;
     
-    // ¸üÐÂÀúÊ·Öµ
+    // æ›´æ–°åŽ†å²å€¼
     lpf->dInPrev[1] = lpf->dInPrev[0];
     lpf->dInPrev[0] = input;
     lpf->dOutPrev[1] = lpf->dOutPrev[0];
@@ -50,7 +50,7 @@ double LowPassFilterUpdate(LowPassFilter* lpf, double input) {
     return output;
 }
 
-// ÖØÖÃµÍÍ¨ÂË²¨Æ÷
+// é‡ç½®ä½Žé€šæ»¤æ³¢å™¨
 void LowPassFilterReset(LowPassFilter* lpf) {
     lpf->dInPrev[0] = 0.0;
     lpf->dInPrev[1] = 0.0;
@@ -58,7 +58,7 @@ void LowPassFilterReset(LowPassFilter* lpf) {
     lpf->dOutPrev[1] = 0.0;
 }
 
-// »ñÈ¡ÂË²¨Æ÷Êä³ö
+// èŽ·å–æ»¤æ³¢å™¨è¾“å‡º
 double LowPassFilterGetOutput(LowPassFilter* lpf) {
     return lpf->dOutPrev[0];
 }

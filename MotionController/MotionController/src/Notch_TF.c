@@ -5,36 +5,36 @@
 
 void NotchTFInit(SNotchTF* psFilter, double NotchFreq, double NotchFreqPole, double NotchDampZero,double samNotchDampPole, double sample_time)
 {
-    // ³õÊ¼»¯²ÎÊý
+    // åˆå§‹åŒ–å‚æ•°
     psFilter->dNotchFreq = NotchFreq;
     psFilter->dNotchFreqPole = NotchFreqPole;
     psFilter->dNotchDampZero = NotchDampZero;
     psFilter->dNotchDampPole = samNotchDampPole;
     psFilter->dTs = sample_time; // [s]
     
-    // ³õÊ¼»¯ÀúÊ·Öµ
+    // åˆå§‹åŒ–åŽ†å²å€¼
     psFilter->dOutPrev[0] = 0.0;
     psFilter->dOutPrev[1] = 0.0;
     psFilter->dInPrev[0] = 0.0;
     psFilter->dInPrev[1] = 0.0;
     
-    // Ä£ÐÍ²ÎÊý³õÊ¼»¯
+    // æ¨¡æ‹Ÿå‚æ•°åˆå§‹åŒ–
     double dT = psFilter->dTs;
     double dFz = psFilter->dNotchFreq;
     double dFp = psFilter->dNotchFreqPole;
     double dDz = psFilter->dNotchDampZero;
     double dDp = psFilter->dNotchDampPole;
     
-    // ÀëÉ¢»¯ÏµÊý¼ÆËã
-    double dOmegaZ = 2.0 * CONST_PI * dFz; // ÁãµãÀëÉ¢ÏµÊý
-    double dOmegaP = 2.0 * CONST_PI * dFp; // ¼«µãÀëÉ¢ÏµÊý
+    // ç¦»æ•£åŒ–ç³»æ•°è®¡ç®—
+    double dOmegaZ = 2.0 * CONST_PI * dFz; // é›¶ç‚¹ç¦»æ•£åŒ–ç³»æ•°
+    double dOmegaP = 2.0 * CONST_PI * dFp; // æžç‚¹ç¦»æ•£åŒ–ç³»æ•°
     
-    // ·Ö×ÓÏµÊý¼ÆËã
+    // åˆ†å­ç³»æ•°è®¡ç®—
     psFilter->dB0 = 1.0 + 2.0 * dDz / dOmegaZ / dT + 4.0 / (dOmegaZ * dOmegaZ * dT * dT);
     psFilter->dB1 = 2.0 - 8.0 / (dOmegaZ * dOmegaZ * dT * dT);
     psFilter->dB2 = 1.0 - 2.0 * dDz / dOmegaZ / dT + 4.0 / (dOmegaZ * dOmegaZ * dT * dT);
     
-    // ·ÖÄ¸ÏµÊý¼ÆËã
+    // åˆ†æ¯ç³»æ•°è®¡ç®—
     psFilter->dA0 = 1.0 + 2.0 * dDp / dOmegaP / dT + 4.0 / (dOmegaP * dOmegaP * dT * dT);
     psFilter->dA1 = 2.0 - 8.0 / (dOmegaP * dOmegaP * dT * dT);
     psFilter->dA2 = 1.0 - 2.0 * dDp / dOmegaP / dT + 4.0 / (dOmegaP * dOmegaP * dT * dT);
@@ -44,14 +44,14 @@ double NotchTFUpdate(SNotchTF* psFilter, double dInput)
 {
     double dOutput;
     
-    // µÝÍÆ¼ÆËãÊä³ö
+    // é€’æŽ¨è®¡ç®—å…¬å¼
     dOutput = (psFilter->dB0 * dInput + 
                psFilter->dB1 * psFilter->dInPrev[0] + 
                psFilter->dB2 * psFilter->dInPrev[1] - 
                psFilter->dA1 * psFilter->dOutPrev[0] - 
                psFilter->dA2 * psFilter->dOutPrev[1]) / psFilter->dA0;
     
-    // ¸üÐÂÀúÊ·Êý¾Ý
+    // æ›´æ–°åŽ†å²æ•°æ®
     psFilter->dInPrev[1] = psFilter->dInPrev[0];
     psFilter->dInPrev[0] = dInput;
     psFilter->dOutPrev[1] = psFilter->dOutPrev[0];
@@ -62,7 +62,7 @@ double NotchTFUpdate(SNotchTF* psFilter, double dInput)
 
 void NotchTFReset(SNotchTF* psFilter)
 {
-    // ÖØÖÃÀúÊ·Êý¾Ý
+    // æ¸…é™¤åŽ†å²æ•°æ®
     psFilter->dOutPrev[0] = 0.0;
     psFilter->dOutPrev[1] = 0.0;
     psFilter->dInPrev[0] = 0.0;

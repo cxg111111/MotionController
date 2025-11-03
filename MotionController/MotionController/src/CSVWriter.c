@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "ThreadControl.h"
 
-// CSVÊı¾İ»º³åÇøºÍÏà¹Ø±äÁ¿
+// CSVæ•°æ®ç¼“å†²åŒºå’Œç›¸å…³å˜é‡
 static CSVData g_csvDataBuffer[DATA_BUFFER_SIZE];
 static int g_csvBufferHead = 0;
 static int g_csvBufferTail = 0;
@@ -16,24 +16,24 @@ static HANDLE g_csvBufferNotFull = NULL;
 static int g_csvThreadRunning = 0;
 static FILE* g_pCSVFile = NULL;
 
-// ³õÊ¼»¯CSV»º³åÇø
+// åˆå§‹åŒ–CSVç¼“å†²åŒº
 void InitCSVBuffer(void) {
     g_csvBufferHead = 0;
     g_csvBufferTail = 0;
     g_csvBufferCount = 0;
     g_csvThreadRunning = 1;
     
-    // ´´½¨Í¬²½¶ÔÏó
+    // åˆ›å»ºåŒæ­¥å¯¹è±¡
     g_csvBufferMutex = CreateMutex(NULL, FALSE, NULL);
     g_csvBufferNotEmpty = CreateSemaphore(NULL, 0, DATA_BUFFER_SIZE, NULL);
     g_csvBufferNotFull = CreateSemaphore(NULL, DATA_BUFFER_SIZE, DATA_BUFFER_SIZE, NULL);
 }
 
-// ÇåÀíCSV»º³åÇø×ÊÔ´
+// æ¸…ç†CSVç¼“å†²åŒºèµ„æº
 void CleanupCSVBuffer(void) {
     g_csvThreadRunning = 0;
     
-    // ÊÍ·ÅÍ¬²½¶ÔÏó
+    // é‡Šæ”¾åŒæ­¥å¯¹è±¡
     if (g_csvBufferMutex) {
         CloseHandle(g_csvBufferMutex);
         g_csvBufferMutex = NULL;
@@ -50,29 +50,29 @@ void CleanupCSVBuffer(void) {
     }
 }
 
-// ÉèÖÃCSVÎÄ¼şÖ¸Õë
+// è®¾ç½®CSVæ–‡ä»¶æŒ‡é’ˆ
 void SetCSVFile(FILE* pFile) {
     g_pCSVFile = pFile;
 }
 
-// ½«Êı¾İĞ´ÈëCSV»º³åÇø
+// å°†æ•°æ®å†™å…¥CSVç¼“å†²åŒº
 int WriteCSVDataToBuffer(int step, double time, 
                         double targetPosition[], double actualPosition[],
                         double error[], double controlForce[], int controlMode[]) {
-    // µÈ´ı»º³åÇøÓĞ¿Õ¼ä
+    // ç­‰å¾…ç¼“å†²åŒºæœ‰ç©ºé—´
     WaitForSingleObject(g_csvBufferNotFull, INFINITE);
     
-    // »ñÈ¡»¥³âËø
+    // è·å–äº’æ–¥é”
     WaitForSingleObject(g_csvBufferMutex, INFINITE);
     
-    // ¼ì²é»º³åÇøÊÇ·ñÒÑÂú
+    // æ£€æŸ¥ç¼“å†²åŒºæ˜¯å¦å·²æ»¡
     if (g_csvBufferCount >= DATA_BUFFER_SIZE) {
         ReleaseMutex(g_csvBufferMutex);
         ReleaseSemaphore(g_csvBufferNotFull, 1, NULL);
         return -1;
     }
     
-    // Ğ´ÈëÊı¾İµ½»º³åÇø
+    // å†™å…¥æ•°æ®åˆ°ç¼“å†²åŒº
     CSVData* data = &g_csvDataBuffer[g_csvBufferHead];
     data->step = step;
     data->time = time;
@@ -85,54 +85,54 @@ int WriteCSVDataToBuffer(int step, double time,
         data->controlMode[axis] = controlMode[axis];
     }
     
-    // ¸üĞÂ»º³åÇøÖ¸Õë
+    // æ›´æ–°ç¼“å†²åŒºæŒ‡é’ˆ
     g_csvBufferHead = (g_csvBufferHead + 1) % DATA_BUFFER_SIZE;
     g_csvBufferCount++;
     
-    // ÊÍ·Å»¥³âËø
+    // é‡Šæ”¾äº’æ–¥é”
     ReleaseMutex(g_csvBufferMutex);
     
-    // ·¢ĞÅºÅ±íÊ¾»º³åÇø²»Îª¿Õ
+    // å‘ä¿¡å·è¡¨ç¤ºç¼“å†²åŒºä¸ä¸ºç©º
     ReleaseSemaphore(g_csvBufferNotEmpty, 1, NULL);
     
     return 0;
 }
 
-// CSVĞ´ÈëÏß³Ìº¯Êı
+// CSVå†™å…¥çº¿ç¨‹å‡½æ•°
 void* CSVWriterThreadFunction(void* param) {
     printf("CSV writer thread started\n");
     
     while (g_csvThreadRunning || g_csvBufferCount > 0) {
-        // µÈ´ı»º³åÇøÓĞÊı¾İ
+        // ç­‰å¾…ç¼“å†²åŒºæœ‰æ•°æ®
         if (WaitForSingleObject(g_csvBufferNotEmpty, 100) == WAIT_TIMEOUT) {
-            // ³¬Ê±¼ÌĞø¼ì²éÌõ¼ş
+            // è¶…æ—¶ç»§ç»­æ£€æŸ¥æ¡ä»¶
             continue;
         }
         
-        // »ñÈ¡»¥³âËø
+        // è·å–äº’æ–¥é”
         WaitForSingleObject(g_csvBufferMutex, INFINITE);
         
-        // ¼ì²é»º³åÇøÊÇ·ñÎª¿Õ
+        // æ£€æŸ¥ç¼“å†²åŒºæ˜¯å¦ä¸ºç©º
         if (g_csvBufferCount <= 0) {
             ReleaseMutex(g_csvBufferMutex);
             ReleaseSemaphore(g_csvBufferNotEmpty, 1, NULL);
             continue;
         }
         
-        // ´Ó»º³åÇø¶ÁÈ¡Êı¾İ
+        // ä»ç¼“å†²åŒºè¯»å–æ•°æ®
         CSVData data = g_csvDataBuffer[g_csvBufferTail];
         
-        // ¸üĞÂ»º³åÇøÖ¸Õë
+        // æ›´æ–°ç¼“å†²åŒºæŒ‡é’ˆ
         g_csvBufferTail = (g_csvBufferTail + 1) % DATA_BUFFER_SIZE;
         g_csvBufferCount--;
         
-        // ÊÍ·Å»¥³âËø
+        // é‡Šæ”¾äº’æ–¥é”
         ReleaseMutex(g_csvBufferMutex);
         
-        // ·¢ĞÅºÅ±íÊ¾»º³åÇøÓĞ¿Õ¼äÁË
+        // å‘ä¿¡å·è¡¨ç¤ºç¼“å†²åŒºæœ‰ç©ºé—´äº†
         ReleaseSemaphore(g_csvBufferNotFull, 1, NULL);
         
-        // Ğ´ÈëÊı¾İµ½ÎÄ¼ş
+        // å†™å…¥æ•°æ®åˆ°æ–‡ä»¶
         if (g_pCSVFile) {
             //fprintf(g_pCSVFile, "%d,%.3f", data.step, data.time);
             for(int axis = 0; axis < AXIS_COUNT; axis++) {
@@ -147,7 +147,7 @@ void* CSVWriterThreadFunction(void* param) {
             }
             //fprintf(g_pCSVFile, "\n");
             
-            // ¶¨ÆÚË¢ĞÂÎÄ¼şÒÔÈ·±£Êı¾İĞ´Èë´ÅÅÌ
+            // å®šæœŸåˆ·æ–°æ–‡ä»¶ä»¥ç¡®ä¿æ•°æ®å†™å…¥ç£ç›˜
             static int flushCounter = 0;
             if (++flushCounter >= 10) {
                 fflush(g_pCSVFile);
@@ -156,7 +156,7 @@ void* CSVWriterThreadFunction(void* param) {
         }
     }
     
-    // ×îÖÕË¢ĞÂÎÄ¼ş
+    // æœ€ç»ˆåˆ·æ–°æ–‡ä»¶
     if (g_pCSVFile) {
         fflush(g_pCSVFile);
     }

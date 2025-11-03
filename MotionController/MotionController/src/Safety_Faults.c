@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include "math.h"
 #include "ThreadControl.h"
-#include "fault_handler.h"  // Ìí¼Ófault_handlerÍ·ÎÄ¼ş
+#include "fault_handler.h"  // æ·»åŠ fault_handlerå¤´æ–‡ä»¶
 
-// Ìí¼ÓÒ»¸öĞÂµÄº¯ÊıÓÃÓÚ´¦Àí°²È«¿ØÖÆÂß¼­
+// æ·»åŠ ä¸€ä¸ªæ–°çš„å‡½æ•°ç”¨äºå¤„ç†å®‰å…¨æ§åˆ¶é€»è¾‘
 double ApplySafetyControl(int axis, double control_force, double error, ControlSystemState* sysCtrlState) {
-    // ¼ì²éÊÇ·ñ½øÈë°²È«Ä£Ê½
+    // æ£€æŸ¥æ˜¯å¦è¿›å…¥å®‰å…¨æ¨¡å¼
     for(int axis = 0; axis < AXIS_COUNT; axis++) {
         if(sysCtrlState->iControlStep * SAMPLINGTIME < sysCtrlState->pContext[axis]->dTa) {
         
@@ -19,20 +19,20 @@ double ApplySafetyControl(int axis, double control_force, double error, ControlS
                 SafetyData[axis].mode = CONTROL_MODE_OPEN_LOOP;
                 SafetyData[axis].dLastValidOutput = control_force;
         
-                // ÉèÖÃfault_handlerÖĞµÄÏàÓ¦¹ÊÕÏ±êÖ¾
-                if (axis < 8) {  // È·±£ÖáIDÔÚÓĞĞ§·¶Î§ÄÚ
-                    // ½«·Ç¹Ø¼üÎ»ÖÃÎó²îÉèÖÃÎª¹ÊÕÏ
+                // è®¾ç½®fault_handlerä¸­çš„ç›¸åº”æ•…éšœæ ‡å¿—
+                if (axis < 8) {  // ç¡®ä¿è½´IDåœ¨æœ‰æ•ˆèŒƒå›´å†…
+                    // å°†éå…³é”®ä½ç½®è¯¯å·®è®¾ç½®ä¸ºæ•…éšœ
                     g_atAxisFaults[axis].m_bRawFault[FAULT_NON_CRITICAL_POS_ERR] = true;
                     vFault_UpdateAxis(axis);
                     vFault_UpdateSystem();
                 }
-                // ÔÚ½øÈë°²È«Ä£Ê½Ê±¿ÉÒÔÑ¡ÔñÊä³öÁãÁ¦»ò±£³Ö×îºóÒ»´ÎÓĞĞ§Êä³ö
-                return 0.0; // Êä³öÁãÁ¦×÷Îª°²È«´ëÊ©
+                // åœ¨è¿›å…¥å®‰å…¨æ¨¡å¼æ—¶å¯ä»¥é€‰æ‹©è¾“å‡ºé›¶åŠ›æˆ–ä¿æŒæœ€åä¸€æ¬¡æœ‰æ•ˆè¾“å‡º
+                return 0.0; // è¾“å‡ºé›¶åŠ›ä½œä¸ºå®‰å…¨æªæ–½
             }
         }
     }
        
-    // Õı³£±Õ»·¿ØÖÆÄ£Ê½
+    // æ­£å¸¸é—­ç¯æ§åˆ¶æ¨¡å¼
     SafetyData[axis].dLastValidOutput = control_force;
     return control_force;
 }

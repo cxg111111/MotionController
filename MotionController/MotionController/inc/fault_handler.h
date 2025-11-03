@@ -4,10 +4,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// ================== Ã¶¾Ù¶¨Òå ==================
+// ================== æšä¸¾å®šä¹‰ ==================
 
 /**
- * @brief Öá¹ÊÕÏÀàĞÍÃ¶¾Ù
+ * @brief è½´æ•…éšœç±»å‹æšä¸¾
  */
 typedef enum {
     FAULT_HARDWARE_RIGHT_LIMIT,
@@ -33,72 +33,72 @@ typedef enum {
     FAULT_MAX
 } tFaultType; // 't' prefix for type
 
-// ================== ½á¹¹Ìå¶¨Òå ==================
+// ================== ç»“æ„ä½“å®šä¹‰ ==================
 
 /**
- * @brief µ¥¸öÖáµÄ¹ÊÕÏÅäÖÃÓë×´Ì¬ÉÏÏÂÎÄ
+ * @brief å•ä¸ªè½´çš„æ•…éšœé…ç½®ä¸çŠ¶æ€ä¸Šä¸‹æ–‡
  */
 typedef struct {
-    // ÅäÖÃ²ÎÊı
-    bool m_bSafini[FAULT_MAX];        // SAFINI ·´ÏàÎ»
-    bool m_bFmask[FAULT_MAX];         // FMASK ¼à¿ØÎ»
-    bool m_bFdef[FAULT_MAX];          // FDEF ÏìÓ¦Î»
+    // é…ç½®å‚æ•°
+    bool m_bSafini[FAULT_MAX];        // SAFINI åç›¸ä½
+    bool m_bFmask[FAULT_MAX];         // FMASK ç›‘æ§ä½
+    bool m_bFdef[FAULT_MAX];          // FDEF å“åº”ä½
 
-    // ÔËĞĞÊ±×´Ì¬
-    bool m_bRawFault[FAULT_MAX];      // Ô­Ê¼¹ÊÕÏĞÅºÅ
-    bool m_bFault[FAULT_MAX];         // ´¦Àíºó¹ÊÕÏĞÅºÅ
-    bool m_bAxisFault;                // Öá×ÛºÏ¹ÊÕÏ±êÖ¾
+    // è¿è¡Œæ—¶çŠ¶æ€
+    bool m_bRawFault[FAULT_MAX];      // åŸå§‹æ•…éšœä¿¡å·
+    bool m_bFault[FAULT_MAX];         // å¤„ç†åæ•…éšœä¿¡å·
+    bool m_bAxisFault;                // è½´ç»¼åˆæ•…éšœæ ‡å¿—
 
-    // ÄÚ²¿°²È«Ìõ¼ş
-    bool m_bInternalSafetyCond;       // ÄÚ²¿°²È«Ìõ¼ş
+    // å†…éƒ¨å®‰å…¨æ¡ä»¶
+    bool m_bInternalSafetyCond;       // å†…éƒ¨å®‰å…¨æ¡ä»¶
 } tAxisFaultCtx;
 
 /**
- * @brief ÏµÍ³¼¶°²È«ÅäÖÃÓë×´Ì¬ÉÏÏÂÎÄ
+ * @brief ç³»ç»Ÿçº§å®‰å…¨é…ç½®ä¸çŠ¶æ€ä¸Šä¸‹æ–‡
  */
 typedef struct {
-    // ÅäÖÃ²ÎÊı
-    bool m_bSSafini;                  // ÏµÍ³SAFINI
-    bool m_bSFmask;                   // ÏµÍ³FMASK
+    // é…ç½®å‚æ•°
+    bool m_bSSafini;                  // ç³»ç»ŸSAFINI
+    bool m_bSFmask;                   // ç³»ç»ŸFMASK
 
-    // ÔËĞĞÊ±×´Ì¬
-    bool m_bSystemSafetyCond;         // ÏµÍ³°²È«Ìõ¼ş
-    bool m_bSFault;                   // È«¾ÖÏµÍ³¹ÊÕÏ±êÖ¾
+    // è¿è¡Œæ—¶çŠ¶æ€
+    bool m_bSystemSafetyCond;         // ç³»ç»Ÿå®‰å…¨æ¡ä»¶
+    bool m_bSFault;                   // å…¨å±€ç³»ç»Ÿæ•…éšœæ ‡å¿—
 } tSystemFaultCtx;
 
-// ================== È«¾Ö±äÁ¿ÉùÃ÷ ==================
-// Ê¹ÓÃ extern ÉùÃ÷£¬¶¨ÒåÔÚ .c ÎÄ¼şÖĞ
+// ================== å…¨å±€å˜é‡å£°æ˜ ==================
+// ä½¿ç”¨ extern å£°æ˜ï¼Œå®šä¹‰åœ¨ .c æ–‡ä»¶ä¸­
 extern tAxisFaultCtx g_atAxisFaults[8];   // g_: global, a: array
 extern tSystemFaultCtx g_tSystemFault;    // g_: global
 
-// ================== º¯ÊıÉùÃ÷ ==================
+// ================== å‡½æ•°å£°æ˜ ==================
 
 /**
- * @brief ³õÊ¼»¯¹ÊÕÏ´¦Àí¿ò¼Ü
+ * @brief åˆå§‹åŒ–æ•…éšœå¤„ç†æ¡†æ¶
  */
 void vFault_Init(void);
 
 /**
- * @brief ¸üĞÂÖ¸¶¨ÖáµÄ¹ÊÕÏ×´Ì¬
- * @param u8AxisId ÖáID (0~7)
+ * @brief æ›´æ–°æŒ‡å®šè½´çš„æ•…éšœçŠ¶æ€
+ * @param u8AxisId è½´ID (0~7)
  */
 void vFault_UpdateAxis(uint8_t u8AxisId);
 
 /**
- * @brief ¸üĞÂÏµÍ³¼¶¹ÊÕÏ×´Ì¬
+ * @brief æ›´æ–°ç³»ç»Ÿçº§æ•…éšœçŠ¶æ€
  */
 void vFault_UpdateSystem(void);
 
 /**
- * @brief »ñÈ¡Ö¸¶¨ÖáµÄ¹ÊÕÏ×´Ì¬
- * @param u8AxisId ÖáID
- * @return true ±íÊ¾Öá´¦ÓÚ¹ÊÕÏ×´Ì¬
+ * @brief è·å–æŒ‡å®šè½´çš„æ•…éšœçŠ¶æ€
+ * @param u8AxisId è½´ID
+ * @return true è¡¨ç¤ºè½´å¤„äºæ•…éšœçŠ¶æ€
  */
 bool bFault_GetAxisFault(uint8_t u8AxisId);
 
 /**
- * @brief »ñÈ¡È«¾ÖÏµÍ³¹ÊÕÏ×´Ì¬
- * @return true ±íÊ¾ÏµÍ³´¦ÓÚ¹ÊÕÏ×´Ì¬
+ * @brief è·å–å…¨å±€ç³»ç»Ÿæ•…éšœçŠ¶æ€
+ * @return true è¡¨ç¤ºç³»ç»Ÿå¤„äºæ•…éšœçŠ¶æ€
  */
 bool bFault_GetSystemFault(void);
 

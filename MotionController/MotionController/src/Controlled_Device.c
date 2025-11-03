@@ -3,11 +3,11 @@
 #include <string.h>
 #include <math.h>
 
-// ³õÊ¼»¯¸ÕÌå´«µÝº¯Êý
+// åˆå§‹åŒ–åˆšä½“ä¼ é€’å‡½æ•°
 // Controlled_Device.c
 void RigidBodyTFInit(RigidBodyTF *rb, double mass, double Ts) {
     
-    // ³õÊ¼»¯
+    // åˆå§‹åŒ–
     rb->in_prev[0] = 0.0;
     rb->in_prev[1] = 0.0;
     rb->out_prev[0] = 0.0;
@@ -19,7 +19,7 @@ void RigidBodyTFInit(RigidBodyTF *rb, double mass, double Ts) {
     double T = Ts;
     double m = mass;
 
-    // ÀëÉ¢»¯ÏµÊý¼ÆËã
+    // ç¦»æ•£åŒ–ç³»æ•°è®¡ç®—
     rb->b0 = T * T;
     rb->b1 = 2 * T * T;
     rb->b2 = T * T;
@@ -29,7 +29,7 @@ void RigidBodyTFInit(RigidBodyTF *rb, double mass, double Ts) {
     rb->a2 = 4 * m;
 
 }
-// ¸üÐÂº¯Êý
+// æ›´æ–°å‡½æ•°
 double RigidBodyTFUpdate(RigidBodyTF *rb, double input) {  
 
     double output = (rb->b0 * input +
@@ -38,7 +38,7 @@ double RigidBodyTFUpdate(RigidBodyTF *rb, double input) {
                      rb->a1 * rb->out_prev[0] -
                      rb->a2 * rb->out_prev[1]) / rb->a0;
 
-    // ¸üÐÂÀúÊ·Öµ
+    // æ›´æ–°åŽ†å²å€¼
     rb->in_prev[1] = rb->in_prev[0];
     rb->in_prev[0] = input;
     rb->out_prev[1] = rb->out_prev[0];

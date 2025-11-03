@@ -4,10 +4,10 @@
 #include <stdio.h>
 #include "ThreadControl.h"
 
-#define DATA_BUFFER_SIZE 1000  // Êı¾İ»º³åÇø´óĞ¡
-#define AXIS_COUNT 2  // ÖáÊı¸ÄÎª2
+#define DATA_BUFFER_SIZE 1000  // æ•°æ®ç¼“å†²åŒºå¤§å°
+#define AXIS_COUNT 2  // è½´æ•°æ”¹ä¸º2
 
-// CSVÊı¾İ½á¹¹
+// CSVæ•°æ®ç»“æ„
 typedef struct{
     int step;
     double time;
@@ -18,7 +18,7 @@ typedef struct{
     int controlMode[AXIS_COUNT];
 } CSVData;
 
-// º¯ÊıÉùÃ÷
+// å‡½æ•°å£°æ˜
 void InitCSVBuffer(void);
 void CleanupCSVBuffer(void);
 void SetCSVFile(FILE* pFile);

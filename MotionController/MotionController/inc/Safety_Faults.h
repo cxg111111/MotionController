@@ -2,25 +2,25 @@
 #define SAFETY_FAULTS_H
 #include "ThreadControl.h"
 
-// ÔÚÈ«¾Ö±äÁ¿ÇøÓòÌí¼ÓÒÔÏÂ¶¨Òå
-#define ERROR_THRESHOLD 0.0000000007      // Îó²îãĞÖµ (µ¥Î»: m)
+// åœ¨å…¨å±€å˜é‡åŒºåŸŸæ·»åŠ ä»¥ä¸‹å®šä¹‰
+#define ERROR_THRESHOLD 0.0000000007      // è¯¯å·®é˜ˆå€¼ (å•ä½: m)
 #define AXIS_COUNT 2
-// °²È«¿ØÖÆÄ£Ê½Ã¶¾Ù
+// å®‰å…¨æ§åˆ¶æ¨¡å¼æšä¸¾
 typedef enum {
-    CONTROL_MODE_CLOSED_LOOP = 0,  // ±Õ»·¿ØÖÆÄ£Ê½
-    CONTROL_MODE_OPEN_LOOP  = 1   // ¿ª»·¿ØÖÆÄ£Ê½
+    CONTROL_MODE_CLOSED_LOOP = 0,  // é—­ç¯æ§åˆ¶æ¨¡å¼
+    CONTROL_MODE_OPEN_LOOP  = 1   // å¼€ç¯æ§åˆ¶æ¨¡å¼
 } ControlMode;
 
-// ÎªÃ¿¸öÖáÌí¼Ó°²È«¿ØÖÆ×´Ì¬
+// ä¸ºæ¯ä¸ªè½´æ·»åŠ å®‰å…¨æ§åˆ¶çŠ¶æ€
 typedef struct {
-    ControlMode mode;              // µ±Ç°¿ØÖÆÄ£Ê½
-    double dLastValidOutput;     // ×îºóÒ»´ÎÓĞĞ§Êä³öÖµ
+    ControlMode mode;              // å½“å‰æ§åˆ¶æ¨¡å¼
+    double dLastValidOutput;     // æœ€åä¸€æ¬¡æœ‰æ•ˆè¾“å‡ºå€¼
 } SafetyControlData;
 
-// ÔÚÈ«¾Ö±äÁ¿ÇøÓòÌí¼Ó°²È«¿ØÖÆÊı¾İ
+// åœ¨å…¨å±€å˜é‡åŒºåŸŸæ·»åŠ å®‰å…¨æ§åˆ¶æ•°æ®
 SafetyControlData SafetyData[AXIS_COUNT];
 
-// ĞŞ¸Äº¯ÊıÉùÃ÷£¬Ê¹ÓÃ²»Í¬µÄ²ÎÊıÃû±ÜÃâ³åÍ»
+// ä¿®æ”¹å‡½æ•°å£°æ˜ï¼Œä½¿ç”¨ä¸åŒçš„å‚æ•°åé¿å…å†²çª
 double ApplySafetyControl(int axis, double control_force, double error, ControlSystemState* sysCtrlState);
 
 

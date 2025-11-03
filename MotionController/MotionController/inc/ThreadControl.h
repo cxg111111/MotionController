@@ -4,11 +4,11 @@
 #include "Controler.h"
 #include "FourthOrderTrajectoryPlanning.h"
 
-#define SAMPLINGTIME 0.001     // ²ÉÑùÊ±¼ä 1ms
-#define TOTALSTEPS 1001         // ×Ü²½Êı
-#define AXIS_COUNT 2  // ÖáÊıÎª2
+#define SAMPLINGTIME 0.001     // é‡‡æ ·æ—¶é—´ 1ms
+#define TOTALSTEPS 1001         // æ€»æ­¥æ•°
+#define AXIS_COUNT 2  // è½´æ•°ä¸º2
 
-// ĞŞ¸Ä ControlData ½á¹¹ÌåÎªÖ§³Ö¶àÖá
+// ä¿®æ”¹ ControlData ç»“æ„ä½“ä¸ºæ”¯æŒå¤šè½´
 typedef struct {
     volatile double dTargetPosition[AXIS_COUNT];
     double dActualPosition[AXIS_COUNT];
@@ -16,24 +16,24 @@ typedef struct {
     double dControlForce[AXIS_COUNT];
     double dOutputPosition[AXIS_COUNT];
 } ControlData;
-// ¿ØÖÆÏµÍ³È«¾Ö×´Ì¬½á¹¹Ìå
+// æ§åˆ¶ç³»ç»Ÿå…¨å±€çŠ¶æ€ç»“æ„ä½“
 
 typedef struct {
     RigidBodyTF plant[AXIS_COUNT];
     Controller controller[AXIS_COUNT];
     ControlData ctrl_data;
-    stTrajectoryPoint currentPoint[AXIS_COUNT];  // Ã¿Öá¶¼ÓĞ×Ô¼ºµÄ¹ì¼£
+    stTrajectoryPoint currentPoint[AXIS_COUNT];  // æ¯è½´éƒ½æœ‰è‡ªå·±çš„è½¨è¿¹
     stPlannerContext* pContext[AXIS_COUNT];
     int iControlStep;
     int bTrajectoryReady;
     int bControlRunning;
     FILE* pFile;
-    // Ìí¼ÓÒÔÏÂÁ½¸ö³ÉÔ±ÓÃÓÚÖ§³Ö¶ÀÁ¢Öá¿ØÖÆ
-    int iControlStepPerAxis[AXIS_COUNT];  // Ã¿¸öÖáµÄ¶ÀÁ¢²½½ø¼ÆÊıÆ÷
-    int bAxisActive[AXIS_COUNT];          // Ã¿¸öÖáµÄ¼¤»î×´Ì¬±ê¼Ç
+    // æ·»åŠ ä»¥ä¸‹ä¸¤ä¸ªæˆå‘˜ç”¨äºæ”¯æŒç‹¬ç«‹è½´æ§åˆ¶
+    int iControlStepPerAxis[AXIS_COUNT];  // æ¯ä¸ªè½´çš„ç‹¬ç«‹æ­¥è¿›è®¡æ•°å™¨
+    int bAxisActive[AXIS_COUNT];          // æ¯ä¸ªè½´çš„æ¿€æ´»çŠ¶æ€æ ‡è®°
 } ControlSystemState;
 
-// // È«¾Ö¿ØÖÆÏµÍ³×´Ì¬±äÁ¿
+// // å…¨å±€æ§åˆ¶ç³»ç»ŸçŠ¶æ€å˜é‡
 // static ControlSystemState g_controlState = {
 //     .pContext = { NULL, NULL },
 //     .iControlStep = 0,
@@ -42,20 +42,20 @@ typedef struct {
 //     .pFile = NULL
 // };
 
-// Ö´ĞĞ¼ÆÊıÆ÷
+// æ‰§è¡Œè®¡æ•°å™¨
 static int g_executionCounter = 0;
 
-// È«¾Ö¿ØÖÆ±äÁ¿
+// å…¨å±€æ§åˆ¶å˜é‡
 extern int g_bDataReceived;
 extern struct RxData g_rxData;
 
-// º¯ÊıÉùÃ÷
+// å‡½æ•°å£°æ˜
 void* ControlThreadFunction(void* param);
 void* SocketThreadFunction(void* param);
-//csvÎÄ¼ş´¦ÀíÏß³Ìº¯Êı
+//csvæ–‡ä»¶å¤„ç†çº¿ç¨‹å‡½æ•°
 void* CSVWriterThreadFunction(void* param);
 
-// Ìí¼ÓÖ¸Áî½âÎöº¯ÊıÉùÃ÷
+// æ·»åŠ æŒ‡ä»¤è§£æå‡½æ•°å£°æ˜
 void ProcessCommand(struct RxData* pRxData);
 
 #endif

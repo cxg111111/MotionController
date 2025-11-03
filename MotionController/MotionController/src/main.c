@@ -16,17 +16,17 @@ int main()
     printf("Starting multi-threaded application\n");
     printf("===================================\n");
 
-    //³õÊ¼»¯CSV»º³åÇø
+    //åˆå§‹åŒ–CSVç¼“å†²åŒº
     InitCSVBuffer();
     
-    // ´´½¨SocketÏß³Ì
+    // åˆ›å»ºSocketçº¿ç¨‹
     hSocketThread = (HANDLE)_beginthreadex(
-        NULL,           // °²È«ÊôĞÔ
-        0,              // Õ»´óĞ¡
-        (unsigned int (__stdcall *)(void *))SocketThreadFunction, // Ïß³Ìº¯Êı
-        &port,          // ²ÎÊı
-        0,              // ´´½¨±êÖ¾
-        NULL            // Ïß³ÌID
+        NULL,           // å®‰å…¨å±æ€§
+        0,              // æ ˆå¤§å°
+        (unsigned int (__stdcall *)(void *))SocketThreadFunction, // çº¿ç¨‹å‡½æ•°
+        &port,          // å‚æ•°
+        0,              // åˆ›å»ºæ ‡å¿—
+        NULL            // çº¿ç¨‹ID
     );
     
     if(hSocketThread == NULL)
@@ -35,10 +35,10 @@ int main()
         return 1;
     }
     
-    // ¸øSocket·şÎñÆ÷Ò»Ğ©Æô¶¯Ê±¼ä
+    // ç»™Socketåˆå§‹åŒ–ä¸€äº›ç­‰å¾…æ—¶é—´
     Sleep(1000);
     
-    // ´´½¨CSVĞ´ÈëÏß³Ì
+    // åˆ›å»ºCSVå†™å…¥çº¿ç¨‹
     hCSVWriterThread = (HANDLE)_beginthreadex(
         NULL,           
         0,              
@@ -51,7 +51,7 @@ int main()
     if(hCSVWriterThread == NULL)
     {
         fprintf(stderr, "Failed to create CSV writer thread\n");
-        // ¹Ø±ÕÒÑ´´½¨µÄSocketÏß³Ì
+        // å…³é—­å·²åˆ›å»ºçš„Socketçº¿ç¨‹
         if(hSocketThread != NULL)
         {
             WaitForSingleObject(hSocketThread, INFINITE);
@@ -60,20 +60,20 @@ int main()
         return 1;
     }
 
-    // ´´½¨¿ØÖÆÏß³Ì
+    // åˆ›å»ºæ§åˆ¶çº¿ç¨‹
     hControlThread = (HANDLE)_beginthreadex(
-        NULL,           // °²È«ÊôĞÔ
-        0,              // Õ»´óĞ¡
-        (unsigned int (__stdcall *)(void *))ControlThreadFunction, // Ïß³Ìº¯Êı
-        NULL,           // ²ÎÊı
-        0,              // ´´½¨±êÖ¾
-        NULL            // Ïß³ÌID
+        NULL,           // å®‰å…¨å±æ€§
+        0,              // æ ˆå¤§å°
+        (unsigned int (__stdcall *)(void *))ControlThreadFunction, // çº¿ç¨‹å‡½æ•°
+        NULL,           // å‚æ•°
+        0,              // åˆ›å»ºæ ‡å¿—
+        NULL            // çº¿ç¨‹ID
     );
     
     if(hControlThread == NULL)
     {
         fprintf(stderr, "Failed to create control thread\n");
-        // ¹Ø±ÕÒÑ´´½¨µÄÏß³Ì
+        // å…³é—­å·²åˆ›å»ºçš„çº¿ç¨‹
         if(hSocketThread != NULL)
         {
             WaitForSingleObject(hSocketThread, INFINITE);
@@ -90,10 +90,10 @@ int main()
     printf("All threads started successfully\n");
     printf("Press Enter to stop application...\n");
     
-    // µÈ´ıÓÃ»§ÊäÈë
+    // ç­‰å¾…ç”¨æˆ·è¾“å…¥
     getchar();
     
-    // µÈ´ıÏß³Ì½áÊø
+    // ç­‰å¾…çº¿ç¨‹ç»“æŸ
     if(hControlThread != NULL)
     {
         WaitForSingleObject(hControlThread, INFINITE);
@@ -106,14 +106,14 @@ int main()
         CloseHandle(hSocketThread);
     }
     
-    // µÈ´ıCSVĞ´ÈëÏß³Ì½áÊø
+    // ç­‰å¾…CSVå†™å…¥çº¿ç¨‹ç»“æŸ
     if(hCSVWriterThread != NULL)
     {
         WaitForSingleObject(hCSVWriterThread, INFINITE);
         CloseHandle(hCSVWriterThread);
     }
     
-    // ÇåÀíCSV»º³åÇø
+    // æ¸…ç†CSVç¼“å†²åŒº
     CleanupCSVBuffer();
     
     printf("Application completed\n");

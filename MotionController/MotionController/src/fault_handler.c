@@ -1,33 +1,33 @@
 #include "fault_handler.h"
 
-// ================== È«¾Ö±äÁ¿¶¨Òå ==================
-// ±ØĞëÔÚ .c ÎÄ¼şÖĞ¶¨Òå£¬ÓëÍ·ÎÄ¼şÖĞµÄ extern ÉùÃ÷¶ÔÓ¦
-tAxisFaultCtx g_atAxisFaults[8];      // 8 ¸öÖáµÄ¹ÊÕÏÉÏÏÂÎÄ
-tSystemFaultCtx g_tSystemFault;       // ÏµÍ³¼¶¹ÊÕÏÉÏÏÂÎÄ
+// ================== å…¨å±€å˜é‡å®šä¹‰ ==================
+// å¿…é¡»åœ¨ .c æ–‡ä»¶ä¸­å®šä¹‰ï¼Œä¸å¤´æ–‡ä»¶ä¸­çš„ extern å£°æ˜å¯¹åº”
+tAxisFaultCtx g_atAxisFaults[8];      // 8 ä¸ªè½´çš„æ•…éšœä¸Šä¸‹æ–‡
+tSystemFaultCtx g_tSystemFault;       // ç³»ç»Ÿçº§æ•…éšœä¸Šä¸‹æ–‡
 
-// ================== º¯ÊıÊµÏÖ ==================
+// ================== å‡½æ•°å®ç° ==================
 
 /**
- * @brief ³õÊ¼»¯¹ÊÕÏ´¦Àí¿ò¼Ü
+ * @brief åˆå§‹åŒ–æ•…éšœå¤„ç†æ¡†æ¶
  */
 void vFault_Init(void) {
     uint8_t u8AxisIdx, u8FaultIdx;
 
-    // ³õÊ¼»¯ËùÓĞÖá
+    // åˆå§‹åŒ–æ‰€æœ‰è½´
     for (u8AxisIdx = 0; u8AxisIdx < 8; u8AxisIdx++) {
         tAxisFaultCtx* ptCtx = &g_atAxisFaults[u8AxisIdx];
 
         for (u8FaultIdx = 0; u8FaultIdx < FAULT_MAX; u8FaultIdx++) {
             ptCtx->m_bSafini[u8FaultIdx] = false;
-            ptCtx->m_bFmask[u8FaultIdx] = true;   // Ä¬ÈÏ¼à¿Ø
-            ptCtx->m_bFdef[u8FaultIdx] = true;    // Ä¬ÈÏÏìÓ¦
+            ptCtx->m_bFmask[u8FaultIdx] = true;   // é»˜è®¤ç›‘æ§
+            ptCtx->m_bFdef[u8FaultIdx] = true;    // é»˜è®¤å“åº”
         }
 
         ptCtx->m_bInternalSafetyCond = true;
         ptCtx->m_bAxisFault = false;
     }
 
-    // ³õÊ¼»¯ÏµÍ³¼¶°²È«
+    // åˆå§‹åŒ–ç³»ç»Ÿçº§å®‰å…¨
     g_tSystemFault.m_bSSafini = false;
     g_tSystemFault.m_bSFmask = true;
     g_tSystemFault.m_bSystemSafetyCond = true;
@@ -35,23 +35,23 @@ void vFault_Init(void) {
 }
 
 /**
- * @brief ¸üĞÂµ¥¸öÖáµÄ¹ÊÕÏ×´Ì¬
- * @param u8AxisId ÖáID
+ * @brief æ›´æ–°å•ä¸ªè½´çš„æ•…éšœçŠ¶æ€
+ * @param u8AxisId è½´ID
  */
 void vFault_UpdateAxis(uint8_t u8AxisId) {
-    // ²ÎÊı¼ì²é
+    // å‚æ•°æ£€æŸ¥
     if (u8AxisId >= 8) {
-        return; // ÖáIDÎŞĞ§
+        return; // è½´IDæ— æ•ˆ
     }
 
     tAxisFaultCtx* ptCtx = &g_atAxisFaults[u8AxisId];
     bool bTempFault = false;
     uint8_t u8FaultType;
 
-    // ±éÀúËùÓĞ¹ÊÕÏÀàĞÍ
+    // éå†æ‰€æœ‰æ•…éšœç±»å‹
     for (u8FaultType = 0; u8FaultType < FAULT_MAX; u8FaultType++) {
         if (ptCtx->m_bRawFault[u8FaultType]) {
-            // Ó¦ÓÃ SAFINI ·´Ïà
+            // åº”ç”¨ SAFINI åç›¸
             bool bSafiniInput = ptCtx->m_bSafini[u8FaultType] ? 
                                 !ptCtx->m_bRawFault[u8FaultType] : 
                                 ptCtx->m_bRawFault[u8FaultType];
@@ -71,13 +71,13 @@ void vFault_UpdateAxis(uint8_t u8AxisId) {
 }
 
 /**
- * @brief ¸üĞÂÏµÍ³¼¶¹ÊÕÏ×´Ì¬
+ * @brief æ›´æ–°ç³»ç»Ÿçº§æ•…éšœçŠ¶æ€
  */
 void vFault_UpdateSystem(void) {
     bool bAnyAxisFault = false;
     uint8_t u8AxisIdx;
 
-    // ¼ì²éÊÇ·ñÓĞÈÎÒâÖá¹ÊÕÏ (OR)
+    // æ£€æŸ¥æ˜¯å¦æœ‰ä»»æ„è½´æ•…éšœ (OR)
     for (u8AxisIdx = 0; u8AxisIdx < 8; u8AxisIdx++) {
         if (g_atAxisFaults[u8AxisIdx].m_bAxisFault) {
             bAnyAxisFault = true;
@@ -85,10 +85,10 @@ void vFault_UpdateSystem(void) {
         }
     }
 
-    // OR Öá¹ÊÕÏÓëÏµÍ³°²È«ÊäÈë
+    // OR è½´æ•…éšœä¸ç³»ç»Ÿå®‰å…¨è¾“å…¥
     bool bOrResult = bAnyAxisFault || g_tSystemFault.m_bSystemSafetyCond;
 
-    // Ó¦ÓÃ S_SAFINI
+    // åº”ç”¨ S_SAFINI
     bool bSafiniInput = g_tSystemFault.m_bSSafini ? !bOrResult : bOrResult;
 
     // XOR with system safety condition
@@ -101,20 +101,20 @@ void vFault_UpdateSystem(void) {
 }
 
 /**
- * @brief »ñÈ¡Ö¸¶¨ÖáµÄ¹ÊÕÏ×´Ì¬
- * @param u8AxisId ÖáID
- * @return true ±íÊ¾Öá¹ÊÕÏ
+ * @brief è·å–æŒ‡å®šè½´çš„æ•…éšœçŠ¶æ€
+ * @param u8AxisId è½´ID
+ * @return true è¡¨ç¤ºè½´æ•…éšœ
  */
 bool bFault_GetAxisFault(uint8_t u8AxisId) {
     if (u8AxisId >= 8) {
-        return false; // ÎŞĞ§ÖáID£¬·µ»ØÎŞ¹ÊÕÏ
+        return false; // æ— æ•ˆè½´IDï¼Œè¿”å›æ— æ•…éšœ
     }
     return g_atAxisFaults[u8AxisId].m_bAxisFault;
 }
 
 /**
- * @brief »ñÈ¡È«¾ÖÏµÍ³¹ÊÕÏ×´Ì¬
- * @return true ±íÊ¾ÏµÍ³¹ÊÕÏ
+ * @brief è·å–å…¨å±€ç³»ç»Ÿæ•…éšœçŠ¶æ€
+ * @return true è¡¨ç¤ºç³»ç»Ÿæ•…éšœ
  */
 bool bFault_GetSystemFault(void) {
     return g_tSystemFault.m_bSFault;
