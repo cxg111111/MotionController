@@ -54,6 +54,9 @@
     <ClInclude Include="inc\FourthOrderTrajectoryPlanning.h">
       <Filter>头文件\inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\log.h">
+      <Filter>头文件\inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Controler.c">
@@ -90,6 +93,9 @@
       <Filter>源文件\src</Filter>
     </ClCompile>
     <ClCompile Include="src\FourthOrderTrajectoryPlanning.c">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log.c">
       <Filter>源文件\src</Filter>
     </ClCompile>
   </ItemGroup>

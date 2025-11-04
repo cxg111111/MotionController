@@ -1,14 +1,33 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Lenovo\\Desktop\\MotionController\\",
+  "WorkspaceRootPath": "E:\\Project\\Ag_Project\\MotionController\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|C:\\Users\\Lenovo\\Desktop\\MotionController\\MotionController\\src\\ThreadControl.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|solutionrelative:MotionController\\src\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\log.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|solutionrelative:MotionController\\src\\log.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\Controler.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|solutionrelative:MotionController\\src\\Controler.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\ThreadControl.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|solutionrelative:MotionController\\src\\ThreadControl.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|C:\\Users\\Lenovo\\Desktop\\MotionController\\MotionController\\inc\\ThreadControl.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|E:\\Project\\Ag_Project\\MotionController\\MotionController\\inc\\ThreadControl.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|solutionrelative:MotionController\\inc\\ThreadControl.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|E:\\Project\\Ag_Project\\MotionController\\MotionController\\inc\\log.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A6CADAC3-B62A-478F-B366-16D880D482E4}|MotionController\\MotionController.vcxproj|solutionrelative:MotionController\\inc\\log.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +37,95 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ThreadControl.h",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\MotionController\\MotionController\\inc\\ThreadControl.h",
-              "RelativeDocumentMoniker": "MotionController\\inc\\ThreadControl.h",
-              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\MotionController\\MotionController\\inc\\ThreadControl.h",
-              "RelativeToolTip": "MotionController\\inc\\ThreadControl.h",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAqwC0AAAAdAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "stdio.h",
+              "DocumentMoniker": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h",
+              "ToolTip": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt\\stdio.h",
+              "ViewState": "AgIAAMQFAAAAAAAAAAAQwM4FAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-10-30T08:44:31.146Z",
+              "WhenOpened": "2025-11-04T06:07:55.373Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "log.c",
+              "DocumentMoniker": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\log.c",
+              "RelativeDocumentMoniker": "MotionController\\src\\log.c",
+              "ToolTip": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\log.c",
+              "RelativeToolTip": "MotionController\\src\\log.c",
+              "ViewState": "AgIAADwAAAAAAAAAAAAiwMQAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-11-04T03:36:48.626Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "log.h",
+              "DocumentMoniker": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\inc\\log.h",
+              "RelativeDocumentMoniker": "MotionController\\inc\\log.h",
+              "ToolTip": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\inc\\log.h",
+              "RelativeToolTip": "MotionController\\inc\\log.h",
+              "ViewState": "AgIAAA8AAAAAAAAAAADwvzQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-04T03:36:35.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "main.c",
+              "DocumentMoniker": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\main.c",
+              "RelativeDocumentMoniker": "MotionController\\src\\main.c",
+              "ToolTip": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\main.c",
+              "RelativeToolTip": "MotionController\\src\\main.c",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-11-04T03:35:38.245Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "ThreadControl.c",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\MotionController\\MotionController\\src\\ThreadControl.c",
+              "DocumentMoniker": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\ThreadControl.c",
               "RelativeDocumentMoniker": "MotionController\\src\\ThreadControl.c",
-              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\MotionController\\MotionController\\src\\ThreadControl.c",
+              "ToolTip": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\ThreadControl.c",
               "RelativeToolTip": "MotionController\\src\\ThreadControl.c",
-              "ViewState": "AgIAAH0BAAAAAAAAAAAAACEBAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAIwCYAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-10-30T08:44:28Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Controler.c",
+              "DocumentMoniker": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\Controler.c",
+              "RelativeDocumentMoniker": "MotionController\\src\\Controler.c",
+              "ToolTip": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\src\\Controler.c",
+              "RelativeToolTip": "MotionController\\src\\Controler.c",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-11-04T03:35:26.394Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ThreadControl.h",
+              "DocumentMoniker": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\inc\\ThreadControl.h",
+              "RelativeDocumentMoniker": "MotionController\\inc\\ThreadControl.h",
+              "ToolTip": "E:\\Project\\Ag_Project\\MotionController\\MotionController\\inc\\ThreadControl.h",
+              "RelativeToolTip": "MotionController\\inc\\ThreadControl.h",
+              "ViewState": "AgIAABoAAAAAAAAAAAAqwC0AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-30T08:44:31.146Z",
               "EditorCaption": ""
             }
           ]

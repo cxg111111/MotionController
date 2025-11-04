@@ -1,0 +1,21 @@
+2025-11-04 14:20:18 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\main.c:24: Starting multi-threaded application
+2025-11-04 14:20:18 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\main.c:25: ===================================
+2025-11-04 14:20:24 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\main.c:24: Starting multi-threaded application
+2025-11-04 14:20:24 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\main.c:25: ===================================
+2025-11-04 14:20:24 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:528: Socket thread started on port 8081
+2025-11-04 14:20:25 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\main.c:107: All threads started successfully
+2025-11-04 14:20:25 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\main.c:108: Press Enter to stop application...
+2025-11-04 14:20:25 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:496: Control thread started
+2025-11-04 14:20:25 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:497: ==========================================
+2025-11-04 14:20:25 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:498: Waiting for socket commands to execute control steps...
+2025-11-04 14:20:31 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:39: Initializing control system for 2 axes
+2025-11-04 14:20:31 DEBUG E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:51: Fault handling system initialized
+2025-11-04 14:20:31 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:60: CSV file created successfully
+2025-11-04 14:20:31 DEBUG E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:94: Trajectory planners initialized
+2025-11-04 14:20:31 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:105: Control system initialized successfully for 2 axes
+2025-11-04 14:21:11 DEBUG E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:490: Socket data received in callback: CMD=1
+2025-11-04 14:21:11 DEBUG E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:224: Processing command: CMD=1, Axis=1
+2025-11-04 14:21:11 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:236: Controlling axis 0
+2025-11-04 14:40:57 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:535: Socket server completed normally
+2025-11-04 14:40:57 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c:542: Socket thread exiting
+2025-11-04 14:41:01 INFO  E:\Project\Ag_Project\MotionController\MotionController\src\main.c:113: Shutting down application...

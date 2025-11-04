@@ -1,40 +1,59 @@
-﻿  Controler.c
-  Controlled_Device.c
-  CSVWriter.c
-C:\Users\Lenovo\Desktop\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  (编译源文件“src/CSVWriter.c”)
-  
-  fault_handler.c
-  FourthOrderTrajectoryPlanning.c
-E:\Project\Ag_Project\MotionController\MotionController\src\FourthOrderTrajectoryPlanning.c(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-C:\Users\Lenovo\Desktop\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  (编译源文件“src/FourthOrderTrajectoryPlanning.c”)
-  
-E:\Project\Ag_Project\MotionController\MotionController\src\FourthOrderTrajectoryPlanning.c(604,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  LowPassFilter.c
-  main.c
-C:\Users\Lenovo\Desktop\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  (编译源文件“src/main.c”)
-  
-E:\Project\Ag_Project\MotionController\MotionController\src\main.c(20,5): warning C4013: “InitCSVBuffer”未定义；假设外部返回 int
-E:\Project\Ag_Project\MotionController\MotionController\src\main.c(117,5): warning C4013: “CleanupCSVBuffer”未定义；假设外部返回 int
-  Notch_TF.c
-  PIDController.c
-  Safety_Faults.c
-C:\Users\Lenovo\Desktop\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  (编译源文件“src/Safety_Faults.c”)
-  
-  Socket.c
-E:\Project\Ag_Project\MotionController\MotionController\src\Socket.c(118,29): warning C4477: “fprintf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
-      E:\Project\Ag_Project\MotionController\MotionController\src\Socket.c(118,29):
-      请考虑在格式字符串中使用“%zd”
-  
-E:\Project\Ag_Project\MotionController\MotionController\src\Socket.c(39,18): warning C4101: “sendLen”: 未引用的局部变量
-  ThreadControl.c
-C:\Users\Lenovo\Desktop\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+﻿  ThreadControl.c
+E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+E:\Project\Ag_Project\MotionController\MotionController\inc\ThreadControl.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
   (编译源文件“src/ThreadControl.c”)
   
-E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c(55,5): warning C4013: “SetCSVFile”未定义；假设外部返回 int
-E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c(203,5): warning C4013: “WriteCSVDataToBuffer”未定义；假设外部返回 int
+E:\Project\Ag_Project\MotionController\MotionController\inc\Controler.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/ThreadControl.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\PIDController.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/ThreadControl.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\LowPassFilter.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/ThreadControl.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\Notch_TF.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/ThreadControl.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/ThreadControl.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\Socket.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/ThreadControl.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\Safety_Faults.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/ThreadControl.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\fault_handler.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/ThreadControl.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\src\ThreadControl.c(63,5): warning C4013: “SetCSVFile”未定义；假设外部返回 int
+  log.c
+E:\Project\Ag_Project\MotionController\MotionController\src\log.c(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  main.c
+E:\Project\Ag_Project\MotionController\MotionController\src\main.c(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+E:\Project\Ag_Project\MotionController\MotionController\inc\ThreadControl.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\Controler.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\PIDController.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\LowPassFilter.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\Notch_TF.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\FourthOrderTrajectoryPlanning.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\inc\Socket.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.c”)
+  
+E:\Project\Ag_Project\MotionController\MotionController\src\main.c(31,5): warning C4013: “InitCSVBuffer”未定义；假设外部返回 int
+E:\Project\Ag_Project\MotionController\MotionController\src\main.c(139,5): warning C4013: “CleanupCSVBuffer”未定义；假设外部返回 int
   正在生成代码...
   MotionController.vcxproj -> E:\Project\Ag_Project\MotionController\x64\Debug\MotionController.exe

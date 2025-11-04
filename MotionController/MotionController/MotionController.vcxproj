@@ -24,6 +24,7 @@
     <ClInclude Include="inc\CSVWriter.h" />
     <ClInclude Include="inc\fault_handler.h" />
     <ClInclude Include="inc\FourthOrderTrajectoryPlanning.h" />
+    <ClInclude Include="inc\log.h" />
     <ClInclude Include="inc\LowPassFilter.h" />
     <ClInclude Include="inc\Notch_TF.h" />
     <ClInclude Include="inc\PIDController.h" />
@@ -37,6 +38,7 @@
     <ClCompile Include="src\CSVWriter.c" />
     <ClCompile Include="src\fault_handler.c" />
     <ClCompile Include="src\FourthOrderTrajectoryPlanning.c" />
+    <ClCompile Include="src\log.c" />
     <ClCompile Include="src\LowPassFilter.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\Notch_TF.c" />
@@ -98,7 +100,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Lenovo\Desktop\MotionController\MotionController\src;C:\Users\Lenovo\Desktop\MotionController\MotionController\inc;$(IncludePath)</IncludePath>
+    <IncludePath>E:\Project\Ag_Project\MotionController\MotionController\src;E:\Project\Ag_Project\MotionController\MotionController\inc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

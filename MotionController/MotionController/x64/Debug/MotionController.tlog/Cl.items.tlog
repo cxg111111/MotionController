@@ -3,6 +3,7 @@ E:\Project\Ag_Project\MotionController\MotionController\src\Controlled_Device.c;
 E:\Project\Ag_Project\MotionController\MotionController\src\CSVWriter.c;E:\Project\Ag_Project\MotionController\MotionController\x64\Debug\CSVWriter.obj
 E:\Project\Ag_Project\MotionController\MotionController\src\fault_handler.c;E:\Project\Ag_Project\MotionController\MotionController\x64\Debug\fault_handler.obj
 E:\Project\Ag_Project\MotionController\MotionController\src\FourthOrderTrajectoryPlanning.c;E:\Project\Ag_Project\MotionController\MotionController\x64\Debug\FourthOrderTrajectoryPlanning.obj
+E:\Project\Ag_Project\MotionController\MotionController\src\log.c;E:\Project\Ag_Project\MotionController\MotionController\x64\Debug\log.obj
 E:\Project\Ag_Project\MotionController\MotionController\src\LowPassFilter.c;E:\Project\Ag_Project\MotionController\MotionController\x64\Debug\LowPassFilter.obj
 E:\Project\Ag_Project\MotionController\MotionController\src\main.c;E:\Project\Ag_Project\MotionController\MotionController\x64\Debug\main.obj
 E:\Project\Ag_Project\MotionController\MotionController\src\Notch_TF.c;E:\Project\Ag_Project\MotionController\MotionController\x64\Debug\Notch_TF.obj
